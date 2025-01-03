@@ -11,10 +11,10 @@ services:
     volumes:
       - ./app:/app      # define the folder mapping inside the container
       - dev-static-data:/vol/web
-    command: >
-      sh -c "python manage.py wait_for_db &&
-            python manage.py migrate &&
-            python manage.py runserver 0.0.0.0:8000"
+    # command: >
+    #   sh -c "python manage.py wait_for_db &&
+    #         python manage.py migrate &&
+    #         python manage.py runserver 0.0.0.0:8000"
     environment:        # database connection settings
       - DB_HOST=db      
       - DB_NAME=devdb      
@@ -25,12 +25,12 @@ services:
 
   db:
     image: postgres:17.2-alpine3.20
-    volumes:    # se crea un volumen para guardar y cargar la info en la base de datos
+    volumes:    # for save the database info
       - dev-db-data:/var/lib/postgresql/data
-    environment:    # se define las variables para la base de datos
-      - POSTGRES_DB=devdb       # nombre de la base de datos
-      - POSTGRES_USER=devuser       # usuario
-      - POSTGRES_PASSWORD=changeme   # password
+    environment:    # connection settings to backend
+      - POSTGRES_DB=devdb  
+      - POSTGRES_USER=devuser      
+      - POSTGRES_PASSWORD=changeme
 
 volumes:
   dev-db-data:
