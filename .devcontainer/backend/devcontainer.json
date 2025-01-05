@@ -1,0 +1,25 @@
+{
+    "name": "Backend DevContainer",
+    "dockerComposeFile": ["../docker-compose.yml"], // Ruta al archivo docker-compose.yml
+    "service": "backend", // Nombre del servicio backend en docker-compose.yml
+    "workspaceFolder": "/app", // Carpeta del proyecto en el contenedor
+    "forwardPorts": [8000], // Puerto expuesto del backend
+    "postCreateCommand": "pip install -r requirements.dev.txt", // Instalar dependencias de desarrollo
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.defaultInterpreterPath": "/py/bin/python", // Ruta al intérprete Python del contenedor
+                "editor.formatOnSave": true, // Formateo automático al guardar
+                "files.exclude": {
+                    "**/__pycache__": true
+                }
+            },
+            "extensions": [
+                "ms-python.python", // Extensión de Python
+                "ms-python.vscode-pylance", // Análisis de código Python
+                "batisteo.vscode-django" // Extensión de Django
+            ]
+        }
+    },
+    "remoteUser": "django-user" // Usuario del contenedor en modo desarrollo
+}

@@ -31,7 +31,9 @@ RUN python -m venv /py && \
     adduser -D -H -s /bin/false django-user && \
     mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
+    mkdir -p /home/django-user && \
     chown -R django-user:django-user /vol && \
+    chown -R django-user:django-user /home/django-user && \
     chmod -R 755 /vol
 
 ENV PATH="/py/bin:$PATH"
