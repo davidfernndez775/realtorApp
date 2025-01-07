@@ -17,10 +17,10 @@ services:
             python manage.py migrate &&
             python manage.py runserver 0.0.0.0:8000"
     environment:        # database connection settings
-      - DB_HOST=db      
-      - DB_NAME=devdb      
-      - DB_USER=devuser     
-      - DB_PASS=changeme    
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
     depends_on:
       - db
 
@@ -29,8 +29,8 @@ services:
     volumes:    # for save the database info
       - dev-db-data:/var/lib/postgresql/data
     environment:    # connection settings to backend
-      - POSTGRES_DB=devdb  
-      - POSTGRES_USER=devuser      
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=changeme
 
 volumes:

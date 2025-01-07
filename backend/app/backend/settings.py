@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'rest_framework',
     'drf_spectacular',
-    'core'
+    'core',
+    'user'
 ]
 
 MIDDLEWARE = [
