@@ -10,8 +10,8 @@ from rest_framework.test import APIClient
 from rest_framework import status
 
 CREATE_USER_URL = reverse('user:create')
-TOKEN_URL = reverse('user:token')
-ME_URL = reverse('user:me')
+# TOKEN_URL = reverse('user:token')
+# ME_URL = reverse('user:me')
 
 
 def create_user(**params):
@@ -31,7 +31,7 @@ class PublicUserApiTests(TestCase):
         payload = {
             'email': 'test@example.com',
             'password': 'testpass123',
-            'name': 'Test Name'
+            'name': 'Test Name',
         }
         # send the http request for create the user
         res = self.client.post(CREATE_USER_URL, payload)

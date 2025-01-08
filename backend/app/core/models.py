@@ -10,6 +10,7 @@ from django.contrib.auth.models import (
 )
 # to handle phonenumbers
 from phonenumber_field.modelfields import PhoneNumberField
+from phonenumber_field.phonenumber import PhoneNumber
 
 
 def recipe_image_file_path(instance, filename):
@@ -25,21 +26,23 @@ def recipe_image_file_path(instance, filename):
 class UserManager(BaseUserManager):
     '''Manager for users'''
 
-    # el metodo contiene la informacion minima necesaria para crear un usuario
-    # se usa un valor por defecto para el password por si queremos usar
-    # usuarios de prueba. Todas las modificaciones que hagamos en la clase User
-    # van a pasar a traves de **extra_fields sin tener que modificar el UserManager
+    # this method contains the less info needed to create an user
+    # I use a default value for password if I can make test users
+    # All changes in the class User are going throw **extrafields without modify
+    # the UserManager
     def create_user(self, email, password=None, **extra_fields):
         '''Create, save and return a new user'''
-        # se chequea que el email exista
+        # check that email exists
         if not email:
             raise ValueError('User most have an email address')
-        # se crea el usuario, notese que se normaliza el email, por si tiene mayusculas despues
-        # de la @. normalize_email es un metodo de la clase BaseUserManager
+        # # convert the phone from string to PhoneNumber
+        # phone=PhoneNumber.from_string(phone)
+        # create the user and normalize the email after the @, 
+        # normalize_email is a method of the class BaseUserManager
         user = self.model(email=self.normalize_email(email), **extra_fields)
-        # el password se agrega despues de encriptado
+        # the password is added after encripted
         user.set_password(password)
-        # se guarda en la base de datos
+        # save the user in database
         user.save(using=self._db)
 
         return user
@@ -59,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     # 255 is CharField max_length
     name = models.CharField(max_length=255)
-    phone = PhoneNumberField()
+    # phone = PhoneNumberField(blank=True, region='US')
     is_active = models.BooleanField(default=True)
     # is_staff define if can access to Django Admin
     is_staff = models.BooleanField(default=False)

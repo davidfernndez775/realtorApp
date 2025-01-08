@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='api-schema'),
          name='api-docs'),
     # *API paths
+    path('app/user/', include('user.urls')),
 ]
 
 # only in development mode
