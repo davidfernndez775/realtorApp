@@ -32,6 +32,7 @@ class PublicUserApiTests(TestCase):
             'email': 'test@example.com',
             'password': 'testpass123',
             'name': 'Test Name',
+            'phone': '+1 305 7855689'
         }
         # send the http request for create the user
         res = self.client.post(CREATE_USER_URL, payload)
@@ -68,6 +69,25 @@ class PublicUserApiTests(TestCase):
         }
         res = self.client.post(CREATE_USER_URL, payload)
         # check that return a BAD_REQUEST
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+        # check that the user don't exists in database
+        user_exists = get_user_model().objects.filter(
+            email=payload['email']).exists()
+        self.assertFalse(user_exists)
+
+    def test_invalid_phone_number(self):
+        '''Test an error is returned if phone number is invalid'''
+        # define the payload for the new user
+        payload = {
+            'email': 'test@example.com',
+            'password': 'testpass123',
+            'name': 'Test Name',
+            'phone': 'phone not valid'
+        }
+        # send the http request for create the user
+        res = self.client.post(CREATE_USER_URL, payload)
+
+        # check the status code
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         # check that the user don't exists in database
         user_exists = get_user_model().objects.filter(

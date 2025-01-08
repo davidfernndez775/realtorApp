@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         # define the fields that can be modified by the user
-        fields = ['email', 'password', 'name']
+        fields = ['email', 'password', 'name', 'phone']
         # the key write_only is added to avoid that the password be return
         # in the response to the user, is more safety
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
