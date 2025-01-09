@@ -21,19 +21,18 @@ class UserSerializer(serializers.ModelSerializer):
         '''Create and return a user with encryted password'''
         return get_user_model().objects.create_user(**validated_data)
 
-    # def update(self, instance, validated_data):
-    #     '''Update and return user'''
-    #     # primero tomamos el password del validated_data y lo guardamos en una variable
-    #     # y lo borramos del validated_data, esto es porque el metodo update no pasa
-    #     # el password por el proceso de hashing, por tanto debemos hacerlo manualmente
-    #     # porque sino el password se actualiza como texto plano
-    #     password = validated_data.pop('password', None)
-    #     # invocamos el metodo update de Django para que haga el trabajo
-    #     user = super().update(instance, validated_data)
-    #     # chequeamos si hay un password
-    #     if password:
-    #         # si el usuario envio el password, lo pasamos por el hash y lo guardamos
-    #         user.set_password(password)
-    #         user.save()
-    #     # retornamos el usuario actualizado
-    #     return user
+    def update(self, instance, validated_data):
+        '''Update and return user'''
+        # first take out the password from validated_data and save it in a variable
+        # this is because the update method don't pass the password throw the hashing process
+        # must do it manually because the password get update as plain text
+        password = validated_data.pop('password', None)
+        # call the method update from Django
+        user = super().update(instance, validated_data)
+        # check if there is a password
+        if password:
+            # if the user send the password, I hash it and save it
+            user.set_password(password)
+            user.save()
+        # return the updated user
+        return user

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phonenumber_field',
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'drf_spectacular',
     'core',
     'user'
@@ -138,9 +140,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # *define authentication model
 AUTH_USER_MODEL = 'core.User'
 
-# *define documentation schema
+# *define documentation schema and authentication classes
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': {
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    }
+}
+
+# *define the jwt token authentication
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'backend_cookie',
+    'JWT_AUTH_REFRESH_COOKIE': 'backend_refresh_cookie',
 }
 
 # *able upload images throw the documentation schema
