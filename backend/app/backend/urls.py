@@ -14,12 +14,13 @@ urlpatterns = [
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='api-schema'),
          name='api-docs'),
     # *API paths
+    path('app/auth/', include('authentication.urls')),
     path('app/user/', include('user.urls')),
 ]
 
 # only in development mode
 if settings.DEBUG:
-    urlpatterns+=static(
+    urlpatterns += static(
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT,
     )

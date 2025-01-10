@@ -38,12 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'phonenumber_field',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'drf_spectacular',
     'core',
+    'authentication.apps.AuthenticationConfig',
     'user'
 ]
 
@@ -55,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # *add this middleware for allauth
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -140,20 +148,36 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # *define authentication model
 AUTH_USER_MODEL = 'core.User'
 
-# *define documentation schema and authentication classes
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_AUTHENTICATION_CLASSES': {
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-    }
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
 
-# *define the jwt token authentication
-REST_AUTH = {
-    'USE_JWT': True,
-    'JWT_AUTH_COOKIE': 'backend_cookie',
-    'JWT_AUTH_REFRESH_COOKIE': 'backend_refresh_cookie',
-}
+# *add this for allauth
+SITE_ID = 1
+
+# # *define documentation schema and authentication classes
+# REST_FRAMEWORK = {
+#     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+#     'DEFAULT_AUTHENTICATION_CLASSES': {
+#         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+#     }
+# }
+
+# # *define the jwt token authentication
+# REST_AUTH = {
+#     'USE_JWT': True,
+#     'JWT_AUTH_COOKIE': 'backend_cookie',
+#     'JWT_AUTH_REFRESH_COOKIE': 'backend_refresh_cookie',
+# }
 
 # *able upload images throw the documentation schema
 SPECTACULAR_SETTINGS = {

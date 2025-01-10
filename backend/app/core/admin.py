@@ -12,7 +12,7 @@ from core import models
 class UserAdmin(BaseUserAdmin):
     '''Define the admin pages for users'''
     ordering = ['id']   # order the list by id
-    list_display = ['email', 'name']    # show fields email and name
+    list_display = ['email', 'username']    # show fields email and username
     fieldsets = ((None, {'fields': ('email', 'password')}),
                  (_('Permissions'), {'fields': (
                      'is_active', 'is_staff', 'is_superuser')}),
@@ -21,7 +21,7 @@ class UserAdmin(BaseUserAdmin):
     # in add_fieldsets I use 'classes' only for custom the appereance of the page
     # is opcional
     add_fieldsets = ((None, {'classes': ('wide',),
-                             'fields': ('email', 'password1', 'password2', 'name', 'is_active', 'is_staff', 'is_superuser',)}),)
+                             'fields': ('email', 'password1', 'password2', 'username', 'is_active', 'is_staff', 'is_superuser',)}),)
 
 
 admin.site.register(models.User, UserAdmin)

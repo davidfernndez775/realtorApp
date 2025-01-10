@@ -16,7 +16,7 @@ from phonenumber_field.phonenumber import PhoneNumber
 def recipe_image_file_path(instance, filename):
     '''Generate a file path for new recipe image'''
     # take the extension from the name of the file
-    ext= os.path.splitext(filename)[1]
+    ext = os.path.splitext(filename)[1]
     # assign a unique name and add the extension again
     filename = f'{uuid.uuid4()}{ext}'
     # return the full path
@@ -37,7 +37,7 @@ class UserManager(BaseUserManager):
             raise ValueError('User most have an email address')
         # # convert the phone from string to PhoneNumber
         # phone=PhoneNumber.from_string(phone)
-        # create the user and normalize the email after the @, 
+        # create the user and normalize the email after the @,
         # normalize_email is a method of the class BaseUserManager
         user = self.model(email=self.normalize_email(email), **extra_fields)
         # the password is added after encripted
@@ -59,16 +59,16 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     '''User in the system'''
+
     email = models.EmailField(max_length=255, unique=True)
     # 255 is CharField max_length
-    name = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
     phone = PhoneNumberField(blank=True)
     is_active = models.BooleanField(default=True)
     # is_staff define if can access to Django Admin
     is_staff = models.BooleanField(default=False)
     # the fields password is in AbstractBaseUser and is_superuser
     # is in PermissionMixin
-
 
     # assign the UserManager to the class User
     objects = UserManager()
