@@ -16,10 +16,6 @@ urlpatterns = [
     # *API paths
     path('app/auth/', include('authentication.urls')),
     path('app/user/', include('user.urls')),
-    # *allauth paths
-    path('auth/', include('dj_rest_auth.urls')),
-    path('auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('accounts/', include('allauth.urls')),
 ]
 
 # only in development mode
