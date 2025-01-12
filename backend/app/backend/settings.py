@@ -148,11 +148,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # *define authentication model
 AUTH_USER_MODEL = 'core.User'
 
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
+# *django-allauth config
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None  # no use username field
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+# *Fields for user registration
+ACCOUNT_SIGNUP_FIELDS = ['email', 'username', 'phone']
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
@@ -163,6 +167,15 @@ REST_FRAMEWORK = {
 
 # *add this for allauth
 SITE_ID = 1
+
+# *define the serializers for my user model
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'authentication.serializers.CustomRegisterSerializer',
+}
+
+# # *if I don't need send email after a user registration just use this
+# # *in order to avoid some errors
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # # *define documentation schema and authentication classes
 # REST_FRAMEWORK = {

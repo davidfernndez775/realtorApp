@@ -13,7 +13,7 @@ class UserAdmin(BaseUserAdmin):
     '''Define the admin pages for users'''
     ordering = ['id']   # order the list by id
     list_display = ['email', 'username']    # show fields email and username
-    fieldsets = ((None, {'fields': ('email', 'password')}),
+    fieldsets = ((None, {'fields': ('email', 'password', 'username', 'phone')}),
                  (_('Permissions'), {'fields': (
                      'is_active', 'is_staff', 'is_superuser')}),
                  (_('Important dates'), {'fields': ('last_login',)}))
