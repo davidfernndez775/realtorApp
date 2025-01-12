@@ -62,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(max_length=255, unique=True)
     # 255 is CharField max_length
-    username = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, unique=True)
     phone = PhoneNumberField(blank=True)
     is_active = models.BooleanField(default=True)
     # is_staff define if can access to Django Admin
