@@ -3,6 +3,7 @@ from authentication.views import CustomRegisterView
 from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
 from django.urls import path
 
+app_name = 'authentication'
 
 urlpatterns = [
     path("register/", CustomRegisterView.as_view(), name="rest_register"),
