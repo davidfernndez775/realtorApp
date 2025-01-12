@@ -22,7 +22,7 @@ class AdminSiteTests(TestCase):
         self.user = get_user_model().objects.create_user(
             email='user@example.com',
             password='testpass123',
-            name='Test User'
+            username='Test User'
         )
 
     def test_users_list(self):
@@ -31,12 +31,12 @@ class AdminSiteTests(TestCase):
             'admin:core_user_changelist')   # url to return the list of users
         res = self.client.get(url)
 
-        self.assertContains(res, self.user.name)
+        self.assertContains(res, self.user.username)
         self.assertContains(res, self.user.email)
-
 
     # as forcelogin with admin user, now check the access to the edit and
     # create pages
+
     def test_edit_user_page(self):
         '''Test the edit user page works'''
         url = reverse('admin:core_user_change', args=[self.user.id])

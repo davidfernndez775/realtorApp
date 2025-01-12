@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'drf_spectacular',
     'core',
-    'authentication.apps.AuthenticationConfig',
+    'authentication',
+    # 'authentication.apps.AuthenticationConfig',
 ]
 
 MIDDLEWARE = [
