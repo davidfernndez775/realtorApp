@@ -45,10 +45,14 @@ class CustomRegisterSerializer(serializers.Serializer):
             setup_user_email(request, user, [])
             return user
         except IntegrityError as e:
-            # Verify if the exception is cause by a duplicate email
-            if 'duplicate key value violates unique constraint' in str(e):
+            # Verify if the exception is caused by a duplicate email
+            if 'duplicate key value violates unique constraint "core_user_email_key"' in str(e):
                 raise ValidationError(
                     {'email': 'A user with this email already exists.'})
+            # Verify if the exception is caused by a duplicate username
+            if 'duplicate key value violates unique constraint "core_user_username_36e4f7f7_uniq"' in str(e):
+                raise ValidationError(
+                    {'username': 'A user with this username already exists.'})
             raise serializers.ValidationError(
                 {"error": "A database error occurred. Please try again."})
             # raise other exceptions from database

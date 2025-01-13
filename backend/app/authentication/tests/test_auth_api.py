@@ -71,6 +71,30 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(
             res.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_user_with_username_exists_error(self):
+        '''Test error returned if user with username exists'''
+        # payload for database
+        payload = {
+            'email': 'test@example.com',
+            'password': 'testpass123',
+            'username': 'Test Name'
+        }
+        # payload for API because need two passwords fields
+        payload2 = {
+            'email': 'test2@example.com',
+            'password1': 'testpass123',
+            'password2': 'testpass123',
+            'username': 'Test Name',
+            'phone': '+3057855689'
+        }
+        # first create the user using the payload in database
+        create_user(**payload)
+        # then send a request to create another user with the same payload
+        res = self.client.post(CREATE_USER_URL, payload2)
+        # check that return a BAD_REQUEST
+        self.assertEqual(
+            res.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_password_too_short_error(self):
         '''Test an error is returned if password less than 5 chars'''
         payload = {
