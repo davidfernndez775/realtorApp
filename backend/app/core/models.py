@@ -11,6 +11,7 @@ from django.contrib.auth.models import (
 # to handle phonenumbers
 from phonenumber_field.modelfields import PhoneNumberField
 from phonenumber_field.phonenumber import PhoneNumber
+from authentication.validators import validate_us_phone_number
 
 
 def recipe_image_file_path(instance, filename):
@@ -63,7 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     # 255 is CharField max_length
     username = models.CharField(max_length=255, unique=True)
-    phone = PhoneNumberField(blank=True)
+    phone = PhoneNumberField(blank=True, validators=[validate_us_phone_number])
     is_active = models.BooleanField(default=True)
     # is_staff define if can access to Django Admin
     is_staff = models.BooleanField(default=False)
