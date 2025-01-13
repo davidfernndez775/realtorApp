@@ -2,7 +2,9 @@ from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 from django.db.utils import IntegrityError
+from django.core.exceptions import ValidationError as DjangoValidationError
 # my user model
 from core.models import User
 
@@ -27,10 +29,17 @@ class CustomRegisterSerializer(serializers.Serializer):
         validated_data = self.validated_data
         adapter = get_adapter()
         try:
+            # create the user object
             user = adapter.new_user(request)
             user.email = validated_data.get('email')
             user.username = validated_data.get('username')
             user.phone = validated_data.get('phone')
+            # validate password
+            try:
+                validate_password(validated_data['password1'], user)
+            except DjangoValidationError as e:
+                raise serializers.ValidationError(
+                    {'password1': list(e.messages)})
             user.set_password(validated_data['password1'])
             user.save()
             setup_user_email(request, user, [])
@@ -40,5 +49,10 @@ class CustomRegisterSerializer(serializers.Serializer):
             if 'duplicate key value violates unique constraint' in str(e):
                 raise ValidationError(
                     {'email': 'A user with this email already exists.'})
+            raise serializers.ValidationError(
+                {"error": "A database error occurred. Please try again."})
             # raise other exceptions from database
             raise e
+        except Exception as e:
+            # Catch unexpected errors and raise a 400 response
+            raise serializers.ValidationError({"error": str(e)})
