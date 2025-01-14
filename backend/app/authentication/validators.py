@@ -31,6 +31,9 @@ def validate_us_phone_number(value):
     try:
         phone_number = parse(value, "US")
         if not is_valid_number(phone_number):
-            raise ValidationError("The phone number entered is not valid.")
-    except NumberParseException:
-        raise ValidationError("The phone number entered is not valid.")
+            raise ValidationError(_("The phone number entered is not valid."),
+                                  code="invalid_phone_number",)
+    except NumberParseException as e:
+        raise ValidationError(_("The phone number entered is not valid: %(error)s."),
+                              code="invalid_phone_number",
+                              params={"error": str(e)},)

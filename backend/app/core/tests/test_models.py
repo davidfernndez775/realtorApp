@@ -67,12 +67,12 @@ class ModelTests(TestCase):
         self.assertTrue(user.is_staff)
 
     def test_create_user_with_invalid_phone(self):
-        '''Test creating a user with an invalid phone number'''
-        invalid_phone = "+123456"  # Invalid US phone number
+        """Test creating a user with an invalid phone number"""
+        user = get_user_model()(
+            email='test@example.com',
+            username="testuser",
+            phone='827428',  # invalid number
+        )
         with self.assertRaises(ValidationError):
-            get_user_model().objects.create_user(
-                email="test@example.com",
-                username="testuser",
-                phone=invalid_phone,
-                password="testpass123"
-            )
+            user.full_clean()  # execute the model's validation
+            user.save()

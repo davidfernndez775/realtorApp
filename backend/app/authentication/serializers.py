@@ -6,13 +6,15 @@ from django.contrib.auth.password_validation import validate_password
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError as DjangoValidationError
 # my user model
+from authentication.validators import validate_us_phone_number
 from core.models import User
 
 
 class CustomRegisterSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     username = serializers.CharField(required=True)
-    phone = serializers.CharField(required=False)
+    phone = serializers.CharField(required=False, validators=[
+                                  validate_us_phone_number])
     password1 = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
 

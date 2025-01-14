@@ -33,7 +33,7 @@ class PublicUserApiTests(TestCase):
             'password1': 'testpass123',
             'password2': 'testpass123',
             'username': 'Test Name',
-            'phone': '+3057855689'
+            'phone': '+13057855689'
         }
         # send the http request for create the user
         res = self.client.post(CREATE_USER_URL, payload)
@@ -61,7 +61,7 @@ class PublicUserApiTests(TestCase):
             'password1': 'testpass123',
             'password2': 'testpass123',
             'username': 'Test Name',
-            'phone': '+3057855689'
+            'phone': '+13057855689'
         }
         # first create the user using the payload in database
         create_user(**payload)
@@ -85,7 +85,7 @@ class PublicUserApiTests(TestCase):
             'password1': 'testpass123',
             'password2': 'testpass123',
             'username': 'Test Name',
-            'phone': '+3057855689'
+            'phone': '+13057855689'
         }
         # first create the user using the payload in database
         create_user(**payload)
@@ -102,7 +102,7 @@ class PublicUserApiTests(TestCase):
             'password1': 'pw',
             'password2': 'pw',
             'username': 'Test Name',
-            'phone': '+3051874961'
+            'phone': '+13051874961'
         }
         res = self.client.post(CREATE_USER_URL, payload)
         # check that return a BAD_REQUEST
@@ -112,22 +112,22 @@ class PublicUserApiTests(TestCase):
             email=payload['email']).exists()
         self.assertFalse(user_exists)
 
-    # def test_invalid_phone_number(self):
-    #     '''Test an error is returned if phone number is invalid'''
-    #     # define the payload for the new user
-    #     payload = {
-    #         'email': 'test@example.com',
-    #         'password1': 'testpass123',
-    #         'password2': 'testpass123',
-    #         'username': 'Test Name',
-    #         'phone': 'phone not valid'
-    #     }
-    #     # send the http request for create the user
-    #     res = self.client.post(CREATE_USER_URL, payload)
+    def test_invalid_phone_number(self):
+        '''Test an error is returned if phone number is invalid'''
+        # define the payload for the new user
+        payload = {
+            'email': 'test@example.com',
+            'password1': 'testpass123',
+            'password2': 'testpass123',
+            'username': 'Test Name',
+            'phone': 'phone not valid'
+        }
+        # send the http request for create the user
+        res = self.client.post(CREATE_USER_URL, payload)
 
-    #     # check the status code
-    #     self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-    #     # check that the user don't exists in database
-    #     user_exists = get_user_model().objects.filter(
-    #         email=payload['email']).exists()
-    #     self.assertFalse(user_exists)
+        # check the status code
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+        # check that the user don't exists in database
+        user_exists = get_user_model().objects.filter(
+            email=payload['email']).exists()
+        self.assertFalse(user_exists)
