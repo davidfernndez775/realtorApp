@@ -5,13 +5,14 @@ from rest_framework.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError as DjangoValidationError
-# my user model
+from django.core.validators import EmailValidator
 from authentication.validators import validate_us_phone_number
+# my user model
 from core.models import User
 
 
 class CustomRegisterSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
+    email = serializers.EmailField(required=True, validators=[EmailValidator(message="Invalid email format.")])
     username = serializers.CharField(required=True)
     phone = serializers.CharField(required=False, validators=[
                                   validate_us_phone_number])
@@ -27,13 +28,19 @@ class CustomRegisterSerializer(serializers.Serializer):
             raise serializers.ValidationError("Passwords don't match.")
         return data
 
+    def normalize_email(self, email):
+        """Normalize the email domain."""
+        local_part, domain_part = email.rsplit('@', 1)
+        domain_part = domain_part.lower()  # Normalize domain to lowercase
+        return f"{local_part}@{domain_part}"
+
     def save(self, request):
         validated_data = self.validated_data
         adapter = get_adapter()
         try:
             # create the user object
             user = adapter.new_user(request)
-            user.email = validated_data.get('email')
+            user.email = self.normalize_email(validated_data.get('email'))
             user.username = validated_data.get('username')
             user.phone = validated_data.get('phone')
             # validate password

@@ -95,6 +95,29 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(
             res.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_new_user_email_normalized(self):
+        '''Test email is normalized throw the API'''
+        # normalize only the part after @
+        sample_emails = [['test1@EXAMPLE.com', 'test1@example.com'],
+                         ['Test2@Example.com', 'Test2@example.com'],
+                         ['TEST3@EXAMPLE.COM', 'TEST3@example.com'],
+                         ['test4@example.COM', 'test4@example.com'],]
+        count = 0
+        for email, expected in sample_emails:
+            # for every email in create an user
+            payload = {
+                'email': email,
+                'password1': 'testpass123',
+                'password2': 'testpass123',
+                'username': f'Test Name{count}',
+                'phone': '+13057855689'
+            }
+            res = self.client.post(CREATE_USER_URL, payload)
+            count+=1
+            # check there is an user in database with an email equal to the expected
+            user_exists = get_user_model().objects.filter(email=expected).exists()
+            self.assertTrue(user_exists)
+
     def test_password_too_short_error(self):
         '''Test an error is returned if password less than 5 chars'''
         payload = {
