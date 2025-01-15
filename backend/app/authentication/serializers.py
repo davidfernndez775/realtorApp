@@ -12,7 +12,8 @@ from core.models import User
 
 
 class CustomRegisterSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True, validators=[EmailValidator(message="Invalid email format.")])
+    email = serializers.EmailField(required=True, validators=[
+                                   EmailValidator(message="Invalid email format.")])
     username = serializers.CharField(required=True)
     phone = serializers.CharField(required=False, validators=[
                                   validate_us_phone_number])
@@ -69,3 +70,29 @@ class CustomRegisterSerializer(serializers.Serializer):
         except Exception as e:
             # Catch unexpected errors and raise a 400 response
             raise serializers.ValidationError({"error": str(e)})
+
+
+class CustomUserDetailsSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required=True, validators=[EmailValidator(message="Invalid email format.")]
+    )
+    phone = serializers.CharField(
+        required=False, validators=[validate_us_phone_number]
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'phone', 'first_name',
+                  'last_name']  # Agrega otros campos si los necesitas
+
+    def update(self, instance, validated_data):
+        # Actualiza solo los campos enviados en validated_data
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        # Guarda los cambios en la instancia del usuario
+        try:
+            instance.save()
+        except DjangoValidationError as e:
+            raise serializers.ValidationError({"error": list(e.messages)})
+        return instance

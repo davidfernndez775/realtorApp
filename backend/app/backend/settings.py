@@ -175,6 +175,9 @@ SITE_ID = 1
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'authentication.serializers.CustomRegisterSerializer',
 }
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'authentication.serializers.CustomUserDetailsSerializer',
+}
 
 # # *if I don't need send email after a user registration just use this
 # # *in order to avoid some errors
