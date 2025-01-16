@@ -12,6 +12,7 @@ from rest_framework import status
 REGISTER_URL = reverse('authentication:rest_register')
 LOGIN_URL = reverse('authentication:rest_login')
 USER_URL = reverse('authentication:rest_user_details')
+LOGOUT_URL = reverse('authentication:rest_logout')
 
 
 def create_user(**params):
@@ -246,22 +247,21 @@ class PrivateUserApiTests(TestCase):
 
     def test_update_user_profile_with_PATCH(self):
         '''Test updating the user profile for the authenticated user using PATCH'''
-        # pasamos los datos para la actualizacion del usuario
-        # payload = {'username': 'Updated name', 'password': 'newpassword123'}
+        # update the data
         payload = {
             'email': 'testUpdate@example.com',
             'password': 'testpasswordUpdate',
             'username': 'Test Name Updated',
             'phone': '+12025550123',
         }
-        # hacemos la peticion
+        # send the http request
         res = self.client.patch(USER_URL, payload)
-        print(res.content)
-        # actualizamos el user desde la base de datos
+        # print(res.content)
+        # update the user from database
         self.user.refresh_from_db()
-        # comprobamos el status de la response
+        # check the status
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        # comprobamos que el name y el password se hayan actualizado
+        # check the payload of the request and data from database
         self.assertEqual(self.user.username, payload['username'])
         self.assertEqual(self.user.email, payload['email'])
         self.assertEqual(self.user.phone, payload['phone'])
@@ -269,21 +269,21 @@ class PrivateUserApiTests(TestCase):
 
     def test_update_user_profile_with_PUT(self):
         '''Test updating the user profile for the authenticated user using PUT'''
-        # pasamos los datos para la actualizacion del usuario
+        # update the data
         payload = {
             'email': 'testUpdate@example.com',
             'password': 'testpasswordUpdate',
             'username': 'Test Name Updated',
             'phone': '+12025550123'
         }
-        # hacemos la peticion
+        # send the http request
         res = self.client.put(USER_URL, payload)
-        print(res.content)
-        # actualizamos el user desde la base de datos
+        # print(res.content)
+        # update the user from database
         self.user.refresh_from_db()
-        # comprobamos el status de la response
+        # check the status
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        # comprobamos que el name y el password se hayan actualizado
+        # check the payload of the request and data from database
         self.assertEqual(self.user.username, payload['username'])
         self.assertEqual(self.user.email, payload['email'])
         self.assertEqual(self.user.phone, payload['phone'])
@@ -291,5 +291,9 @@ class PrivateUserApiTests(TestCase):
     
     # *TESTS FOR LOGOUT ENDPOINT
 
-    # def test_token_delete_when_logout(self):
-    #     '''Test token delete when logout'''
+    def test_token_delete_when_logout(self):
+        '''Test token delete when logout'''
+                # send the http request for login the user
+        res = self.client.post(LOGOUT_URL,{})
+        # check that an access token is not receive
+        self.assertNotIn('key', res.data)
