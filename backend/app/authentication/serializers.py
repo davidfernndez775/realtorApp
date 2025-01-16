@@ -82,15 +82,21 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'phone', 'first_name',
-                  'last_name']  # Agrega otros campos si los necesitas
+        fields = ['username', 'email', 'phone', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True, 'min_length': 8}
+        }
 
     def update(self, instance, validated_data):
-        # Actualiza solo los campos enviados en validated_data
+        # take out the password from validated_data
+        password = validated_data.pop('password', None)
+        # update the fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
+        if password:
+            instance.set_password(password)  # hash the password
 
-        # Guarda los cambios en la instancia del usuario
+        # save the changes in user instance
         try:
             instance.save()
         except DjangoValidationError as e:

@@ -39,7 +39,7 @@ class PublicUserApiTests(TestCase):
         }
         # send the http request for create the user
         res = self.client.post(REGISTER_URL, payload)
-
+        
         # check the status code
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         # check the user has been created
@@ -222,6 +222,7 @@ class PrivateUserApiTests(TestCase):
             email='test@example.com',
             password='testpass123',
             username='Test Name',
+            phone='+13051874961'
         )
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
@@ -243,20 +244,50 @@ class PrivateUserApiTests(TestCase):
         # check the status
         self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_update_user_profile(self):
-        '''Test updating the user profile for the authenticated user'''
+    def test_update_user_profile_with_PATCH(self):
+        '''Test updating the user profile for the authenticated user using PATCH'''
         # pasamos los datos para la actualizacion del usuario
-        payload = {'username': 'Updated name', 'password': 'newpassword123'}
+        # payload = {'username': 'Updated name', 'password': 'newpassword123'}
+        payload = {
+            'email': 'testUpdate@example.com',
+            'password': 'testpasswordUpdate',
+            'username': 'Test Name Updated',
+            'phone': '+12025550123',
+        }
         # hacemos la peticion
         res = self.client.patch(USER_URL, payload)
+        print(res.content)
         # actualizamos el user desde la base de datos
         self.user.refresh_from_db()
         # comprobamos el status de la response
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         # comprobamos que el name y el password se hayan actualizado
         self.assertEqual(self.user.username, payload['username'])
+        self.assertEqual(self.user.email, payload['email'])
+        self.assertEqual(self.user.phone, payload['phone'])
         self.assertTrue(self.user.check_password(payload['password']))
 
+    def test_update_user_profile_with_PUT(self):
+        '''Test updating the user profile for the authenticated user using PUT'''
+        # pasamos los datos para la actualizacion del usuario
+        payload = {
+            'email': 'testUpdate@example.com',
+            'password': 'testpasswordUpdate',
+            'username': 'Test Name Updated',
+            'phone': '+12025550123'
+        }
+        # hacemos la peticion
+        res = self.client.put(USER_URL, payload)
+        print(res.content)
+        # actualizamos el user desde la base de datos
+        self.user.refresh_from_db()
+        # comprobamos el status de la response
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        # comprobamos que el name y el password se hayan actualizado
+        self.assertEqual(self.user.username, payload['username'])
+        self.assertEqual(self.user.email, payload['email'])
+        self.assertEqual(self.user.phone, payload['phone'])
+        self.assertTrue(self.user.check_password(payload['password']))
     
     # *TESTS FOR LOGOUT ENDPOINT
 
