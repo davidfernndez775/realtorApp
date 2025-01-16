@@ -151,12 +151,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # *define authentication model
 AUTH_USER_MODEL = 'core.User'
 
+# *se definen los backends
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # default system from Django
+    'allauth.account.auth_backends.AuthenticationBackend',  # from allauth
+]
+
 # *django-allauth config
 # ACCOUNT_USER_MODEL_USERNAME_FIELD = None  # no use username field
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 # *Fields for user registration
 ACCOUNT_SIGNUP_FIELDS = ['email', 'username', 'phone']
@@ -177,28 +183,23 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'authentication.serializers.CustomUserDetailsSerializer',
+    'PASSWORD_RESET_SERIALIZER': 'authentication.serializers.CustomPasswordResetSerializer',
 }
 
-# # *if I don't need send email after a user registration just use this
-# # *in order to avoid some errors
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# # *define documentation schema and authentication classes
-# REST_FRAMEWORK = {
-#     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-#     'DEFAULT_AUTHENTICATION_CLASSES': {
-#         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-#     }
-# }
-
-# # *define the jwt token authentication
-# REST_AUTH = {
-#     'USE_JWT': True,
-#     'JWT_AUTH_COOKIE': 'backend_cookie',
-#     'JWT_AUTH_REFRESH_COOKIE': 'backend_refresh_cookie',
-# }
 
 # *able upload images throw the documentation schema
 SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
 }
+
+
+# *for email sending
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # O el host de tu proveedor
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = 'noreply@tu_dominio.com'
+# only in development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

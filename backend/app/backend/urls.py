@@ -15,7 +15,6 @@ urlpatterns = [
          name='api-docs'),
     # *API paths
     path('app/auth/', include('authentication.urls')),
-    # path('app/user/', include('user.urls')),
 ]
 
 # only in development mode

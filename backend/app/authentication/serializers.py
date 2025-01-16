@@ -1,14 +1,24 @@
+from rest_framework import serializers
+# allauth
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
-from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+# validators
+from django.core.validators import EmailValidator
 from django.contrib.auth.password_validation import validate_password
+from authentication.validators import validate_us_phone_number
+# errors
+from rest_framework.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError as DjangoValidationError
-from django.core.validators import EmailValidator
-from authentication.validators import validate_us_phone_number
 # my user model
 from core.models import User
+
+
+def normalize_email(email):
+    """Normalize the email domain."""
+    local_part, domain_part = email.rsplit('@', 1)
+    domain_part = domain_part.lower()  # Normalize domain to lowercase
+    return f"{local_part}@{domain_part}"
 
 
 class CustomRegisterSerializer(serializers.Serializer):
@@ -29,19 +39,13 @@ class CustomRegisterSerializer(serializers.Serializer):
             raise serializers.ValidationError("Passwords don't match.")
         return data
 
-    def normalize_email(self, email):
-        """Normalize the email domain."""
-        local_part, domain_part = email.rsplit('@', 1)
-        domain_part = domain_part.lower()  # Normalize domain to lowercase
-        return f"{local_part}@{domain_part}"
-
     def save(self, request):
         validated_data = self.validated_data
         adapter = get_adapter()
         try:
             # create the user object
             user = adapter.new_user(request)
-            user.email = self.normalize_email(validated_data.get('email'))
+            user.email = normalize_email(validated_data.get('email'))
             user.username = validated_data.get('username')
             user.phone = validated_data.get('phone')
             # validate password
@@ -90,11 +94,13 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         # take out the password from validated_data
         password = validated_data.pop('password', None)
+        email = validated_data.pop('email', None)
         # update the fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         if password:
             instance.set_password(password)  # hash the password
+        instance.email = normalize_email(email)
 
         # save the changes in user instance
         try:
