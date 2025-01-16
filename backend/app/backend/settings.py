@@ -148,6 +148,9 @@ STATIC_ROOT = '/vol/web/static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+LOGIN_URL = 'http://localhost:8000/users/login'
+
 # *define authentication model
 AUTH_USER_MODEL = 'core.User'
 
