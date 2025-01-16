@@ -163,6 +163,13 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# allow that the email link is enough to confirm
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+# redirect for authenticated users
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/user/'
+# redirect for nonauthenticated users
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/login/'
+
 
 # *Fields for user registration
 ACCOUNT_SIGNUP_FIELDS = ['email', 'username', 'phone']
@@ -186,6 +193,9 @@ REST_AUTH_SERIALIZERS = {
     'PASSWORD_RESET_SERIALIZER': 'authentication.serializers.CustomPasswordResetSerializer',
 }
 
+REST_AUTH = {
+    'PASSWORD_RESET_CONFIRM': 'django.contrib.auth.views.PasswordResetConfirmView',
+}
 
 # *able upload images throw the documentation schema
 SPECTACULAR_SETTINGS = {

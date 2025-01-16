@@ -13,4 +13,6 @@ urlpatterns = [
     # Rutas de dj-rest-auth
     path("", include('dj_rest_auth.urls')),  # Incluye las URLs de dj-rest-auth
     path("registration/", include('dj_rest_auth.registration.urls')),  # Para registro
+    # Incluye las URLs de Django para el restablecimiento de contraseñas
+    path('auth/', include('django.contrib.auth.urls')),
 ]
