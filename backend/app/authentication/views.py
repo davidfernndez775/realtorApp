@@ -17,7 +17,7 @@ class CustomRegisterView(RegisterView):
         send_email_confirmation(request=self.request, user=user)
         # Update the reverse call to include the app_name for email confirmation
         email_confirmation = EmailConfirmationHMAC(user)
-        activate_url = reverse('authentication:account_confirm_email', args=[
+        activate_url = reverse('authentication:account_email_verification_sent', args=[
                                email_confirmation.key])
         get_adapter().send_confirmation_mail(
             self.request, email_confirmation, signup=True)

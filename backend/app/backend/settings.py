@@ -187,6 +187,8 @@ REST_FRAMEWORK = {
 
 # *add this for allauth
 SITE_ID = 1
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"  # Change to "https" in production
+ACCOUNT_EMAIL_CONFIRMATION_URL = 'authentication:account_confirm_email'
 
 # *define the serializers for my user model
 REST_AUTH_REGISTER_SERIALIZERS = {
