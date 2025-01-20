@@ -123,12 +123,12 @@ class PublicUserApiTests(TestCase):
             }
             res = self.client.post(REGISTER_URL, payload)
             count+=1
-                # Inspecciona los datos almacenados
-            user = get_user_model().objects.filter(email__iexact=expected).first()
-            print(f"Expected: {expected}, Stored: {user.email if user else 'No user found'}")
-            # # check there is an user in database with an email equal to the expected
-            # user_exists = get_user_model().objects.filter(email=expected).exists()
-            # self.assertTrue(user_exists)
+            #     # Inspecciona los datos almacenados
+            # user = get_user_model().objects.filter(email__iexact=expected).first()
+            # print(f"Expected: {expected}, Stored: {user.email if user else 'No user found'}")
+            # check there is an user in database with an email equal to the expected
+            user_exists = get_user_model().objects.filter(email=expected).exists()
+            self.assertTrue(user_exists)
             # check that an access token is receive for each user
             self.assertIn('key', res.data)
 
