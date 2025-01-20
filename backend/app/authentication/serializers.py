@@ -11,10 +11,10 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 # my user model
 from core.models import User
 
-
 class CustomRegisterSerializer(RegisterSerializer):
     phone = serializers.CharField(required=False, validators=[
                                   validate_us_phone_number])
+    
 
     def get_cleaned_data(self):
         return {
