@@ -1,5 +1,6 @@
 from dj_rest_auth.registration.views import RegisterView
 from dj_rest_auth.views import UserDetailsView
+from allauth.account.utils import send_email_confirmation
 from authentication.serializers import CustomRegisterSerializer, CustomUserDetailsSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -12,6 +13,7 @@ class CustomRegisterView(RegisterView):
     def perform_create(self, serializer):
         user = serializer.save(self.request)
         # Aquí puedes realizar lógica adicional si es necesario
+        send_email_confirmation(self.request, user)
         return user
     
     # this is for sent token after email confirmation
