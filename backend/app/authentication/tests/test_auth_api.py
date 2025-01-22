@@ -5,6 +5,7 @@ Test for the authentication API
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django.core import mail
 
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -181,14 +182,30 @@ class PublicUserApiTests(TestCase):
         # define the payload for the user
         payload = {
             'email': 'test@example.com',
-            'password': 'testpass123',
+            'password1': 'testpass123',
+            'password2': 'testpass123',
             'username': 'Test Name',
         }
-        # create the user in database
-        create_user(**payload)
+        # create the user in database throw the endpoint
+        res = self.client.post(REGISTER_URL, payload)
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        print("Correo enviado:", len(mail.outbox))
+
+        # Captura el email enviado
+        self.assertEqual(len(mail.outbox), 1)
+        email_body = mail.outbox[0].body
+
+        # Extrae el link de verificación del email (simulando lo que haría un usuario)
+        verification_url_start = email_body.find("http://")
+        verification_url_end = email_body.find("\n", verification_url_start)
+        verification_url = email_body[verification_url_start:verification_url_end]
+
+        # Simula la verificación del email accediendo al link
+        res = self.client.get(verification_url)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
         # send the http request for login the user
         res = self.client.post(LOGIN_URL, payload)
-
         # check the status code
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         # check that an access token is receive
