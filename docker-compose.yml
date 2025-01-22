@@ -6,6 +6,8 @@ services:
       context: ./backend      # the path to the Dockerfile
       args:
         - DEV=true
+    env_file:
+      - ./backend/.env
     ports:
       - "8000:8000"       # math the PC port with the container port
     volumes:
