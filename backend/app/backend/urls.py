@@ -7,6 +7,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from dj_rest_auth.registration.views import RegisterView, VerifyEmailView, ConfirmEmailView
+from dj_rest_auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -18,6 +19,10 @@ urlpatterns = [
     path('app/auth/', include('authentication.urls')),
     # for check registration email
     path('accounts/', include('allauth.urls')),
+    # forgot passwords endpoints
+    path('password-reset/', PasswordResetView.as_view()),
+    path('password-reset-confirm/<uidb64>/<token>/',
+         PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]
 
 # only in development mode

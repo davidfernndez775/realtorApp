@@ -190,21 +190,21 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # *EMAIL CONFIGURATION
-# *this config is only for development
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# # *this config is only for development
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # *this config is only for tests
 # if 'test' in sys.argv:
 #     EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
-# # *this config is for send real mails
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-# # # check that load the .env variables
-# # print(os.environ.get('EMAIL_HOST_USER'))
-# # print(os.environ.get('EMAIL_HOST_PASSWORD'))
-# EMAIL_PORT = 587
+# *this config is for send real mails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# # check that load the .env variables
+# print(os.environ.get('EMAIL_HOST_USER'))
+# print(os.environ.get('EMAIL_HOST_PASSWORD'))
+EMAIL_PORT = 587
 
 ACCOUNT_EMAIL_CONFIRMATION_URL = 'authentication:account_confirm_email'
 
