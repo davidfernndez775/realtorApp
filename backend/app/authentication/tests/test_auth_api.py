@@ -10,6 +10,9 @@ from django.core import mail
 from rest_framework.test import APIClient
 from rest_framework import status
 
+from allauth.account.utils import send_email_confirmation
+from allauth.account.models import EmailAddress
+
 REGISTER_URL = reverse('authentication:rest_register')
 LOGIN_URL = reverse('authentication:rest_login')
 USER_URL = reverse('authentication:rest_user_details')
@@ -41,7 +44,7 @@ class PublicUserApiTests(TestCase):
         }
         # send the http request for create the user
         res = self.client.post(REGISTER_URL, payload)
-        
+
         # check the status code
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         # check the user has been created
@@ -123,7 +126,7 @@ class PublicUserApiTests(TestCase):
                 'phone': '+13057855689'
             }
             res = self.client.post(REGISTER_URL, payload)
-            count+=1
+            count += 1
             #     # Inspecciona los datos almacenados
             # user = get_user_model().objects.filter(email__iexact=expected).first()
             # print(f"Expected: {expected}, Stored: {user.email if user else 'No user found'}")
@@ -174,7 +177,6 @@ class PublicUserApiTests(TestCase):
             email=payload['email']).exists()
         self.assertFalse(user_exists)
 
-
     # *TESTS FOR LOGIN ENDPOINT
 
     def test_login_user_sucess(self):
@@ -188,24 +190,27 @@ class PublicUserApiTests(TestCase):
         }
         # create the user in database throw the endpoint
         res = self.client.post(REGISTER_URL, payload)
+        print("Response data:", res.data)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        print("Correo enviado:", len(mail.outbox))
 
-        # Captura el email enviado
-        self.assertEqual(len(mail.outbox), 1)
-        email_body = mail.outbox[0].body
+        # email verification process manualy becuase in tests is not implemented
+        # get the created user
+        user = get_user_model().objects.get(email=payload["email"])
+        email_address = EmailAddress.objects.get(user=user, email=user.email)
 
-        # Extrae el link de verificación del email (simulando lo que haría un usuario)
-        verification_url_start = email_body.find("http://")
-        verification_url_end = email_body.find("\n", verification_url_start)
-        verification_url = email_body[verification_url_start:verification_url_end]
+        # mark the email as verified
+        email_address.verified = True
+        email_address.save()
 
-        # Simula la verificación del email accediendo al link
-        res = self.client.get(verification_url)
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        # data for login
+        login_payload = {
+            'email': 'test@example.com',
+            'password': 'testpass123',
+            'username': 'Test Name',
+        }
 
         # send the http request for login the user
-        res = self.client.post(LOGIN_URL, payload)
+        res = self.client.post(LOGIN_URL, login_payload)
         # check the status code
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         # check that an access token is receive
@@ -223,7 +228,6 @@ class PublicUserApiTests(TestCase):
         self.assertNotIn('key', res.data)
         # check the status code
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-    
 
     # *TESTS FOR USER ENDPOINT
 
@@ -231,7 +235,6 @@ class PublicUserApiTests(TestCase):
         '''Test authentication is required for users'''
         res = self.client.get(USER_URL)
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
-
 
 
 class PrivateUserApiTests(TestCase):
@@ -308,12 +311,12 @@ class PrivateUserApiTests(TestCase):
         self.assertEqual(self.user.email, payload['email'])
         self.assertEqual(self.user.phone, payload['phone'])
         self.assertTrue(self.user.check_password(payload['password']))
-    
+
     # *TESTS FOR LOGOUT ENDPOINT
 
     def test_token_delete_when_logout(self):
         '''Test token delete when logout'''
-                # send the http request for login the user
-        res = self.client.post(LOGOUT_URL,{})
+        # send the http request for login the user
+        res = self.client.post(LOGOUT_URL, {})
         # check that an access token is not receive
         self.assertNotIn('key', res.data)

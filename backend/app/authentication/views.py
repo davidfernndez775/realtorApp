@@ -10,12 +10,13 @@ from rest_framework import status
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
     # this is to avoid account-confirm-email not found
+
     def perform_create(self, serializer):
         user = serializer.save(self.request)
         # Aquí puedes realizar lógica adicional si es necesario
         send_email_confirmation(self.request, user)
         return user
-    
+
     # this is for sent token after email confirmation
     def create(self, request, *args, **kwargs):
         # Serializa y guarda el usuario
@@ -30,6 +31,7 @@ class CustomRegisterView(RegisterView):
         return Response({
             "key": token.key,
         }, status=status.HTTP_201_CREATED)
+
 
 class CustomUpdateView(UserDetailsView):
     serializer_class = CustomUserDetailsSerializer
