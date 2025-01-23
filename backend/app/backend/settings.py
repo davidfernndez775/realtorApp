@@ -192,10 +192,10 @@ AUTHENTICATION_BACKENDS = [
 # *EMAIL CONFIGURATION
 # *this config is only for development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# # *this config is only for tests
+# *this config is only for tests
 # if 'test' in sys.argv:
 #     EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
-# *this config is for send real mails
+# # *this config is for send real mails
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.gmail.com'
@@ -231,7 +231,6 @@ ACCOUNT_EMAIL_CONFIRMATION_URL = 'authentication:account_confirm_email'
 SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
 }
-
 
 
 # LOGGING = {

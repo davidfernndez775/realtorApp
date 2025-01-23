@@ -190,7 +190,7 @@ class PublicUserApiTests(TestCase):
         }
         # create the user in database throw the endpoint
         res = self.client.post(REGISTER_URL, payload)
-        print("Response data:", res.data)
+        # print("Response data:", res.data)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
         # email verification process manualy becuase in tests is not implemented
