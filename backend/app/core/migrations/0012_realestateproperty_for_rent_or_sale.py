@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='realestateproperty',
             name='for_rent_or_sale',
-            field=models.CharField(choices=[('for_sale', 'En venta'), ('for_rent', 'En renta')], default=('for_sale', 'En venta'), max_length=20),
+            field=models.CharField(choices=[('for_sale', 'En venta'), ('for_rent', 'En renta')], default=(
+                'for_sale', 'En venta'), max_length=100),
         ),
     ]

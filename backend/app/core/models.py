@@ -12,6 +12,7 @@ from django.contrib.auth.models import (
 from phonenumber_field.modelfields import PhoneNumberField
 from phonenumber_field.phonenumber import PhoneNumber
 from authentication.validators import validate_us_phone_number
+from core.validators import validate_coordinates, validate_zip_code
 
 
 def recipe_image_file_path(instance, filename):
@@ -108,18 +109,21 @@ class RealEstateProperty(models.Model):
 
     # attributes
     title = models.CharField(max_length=255)
-    lon = models.DecimalField(max_digits=8, decimal_places=5)
-    lat = models.DecimalField(max_digits=8, decimal_places=5)
+    lon = models.DecimalField(
+        max_digits=8, decimal_places=5, help_text="Enter a valid coordinate, 1 to 3 digits before the comma and 5 after.", validators=[validate_coordinates])
+    lat = models.DecimalField(max_digits=8, decimal_places=5, help_text="Enter a valid coordinate, 1 to 3 digits before the comma and 5 after.", validators=[
+                              validate_coordinates])
     property_type = models.CharField(
         max_length=20,
         choices=PropertyType.choices,
     )
     address = models.TextField(max_length=255)
     county = models.CharField(max_length=20,
-                              choices=PropertyStatus.choices,)
-    zip_code = models.IntegerField()
+                              choices=CountyList.choices,)
+    zip_code = models.IntegerField(validators=[
+        validate_zip_code])
     for_rent_or_sale = models.CharField(
-        max_length=20,
+        max_length=100,
         choices=PropertyStatus.choices,
         default=PropertyStatus.choices[0]
     )
