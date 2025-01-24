@@ -77,3 +77,68 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # replace the authentication field username by the email field
     USERNAME_FIELD = 'email'
+
+
+class RealEstateProperty(models.Model):
+    # create the option's systems
+    class PropertyType(models.TextChoices):
+        HOUSE = 'house', 'Casa'
+        BUILDING = 'building', 'Edificio'
+        CHALET = 'chalet', 'Chalet'
+        LAND = 'land', 'Terreno'
+
+    class PropertyStatus(models.TextChoices):
+        FOR_SALE = 'for_sale', 'En venta'
+        FOR_RENT = 'for_rent', 'En renta'
+
+    class CountyList(models.TextChoices):
+        BROWARD = 'Broward'
+        CHARLOTTE = 'Charlotte'
+        COLLIER = 'Collier'
+        GLADES = 'Glades'
+        HENDRY = 'Hendry'
+        HIGHLANDS = 'Highlands'
+        LEE = 'Lee'
+        MARTIN = 'Martin'
+        MIAMI_DADE = 'Miami Dade'
+        MONROE = 'Monroe'
+        OKEECHOBEE = 'Okeechobee'
+        PALM_BEACH = 'Palm Beach'
+        SAINT_LUCIE = 'Saint Lucie'
+
+    # attributes
+    title = models.CharField(max_length=255)
+    lon = models.DecimalField(max_digits=8, decimal_places=5)
+    lat = models.DecimalField(max_digits=8, decimal_places=5)
+    property_type = models.CharField(
+        max_length=20,
+        choices=PropertyType.choices,
+    )
+    address = models.TextField(max_length=255)
+    county = models.CharField(max_length=20,
+                              choices=PropertyStatus.choices,)
+    zip_code = models.IntegerField()
+    for_rent_or_sale = models.CharField(
+        max_length=20,
+        choices=PropertyStatus.choices,
+        default=PropertyStatus.choices[0]
+    )
+    price = models.IntegerField()
+    beds = models.IntegerField(blank=True)
+    full_baths = models.IntegerField(blank=True)
+    half_baths = models.IntegerField(blank=True)
+    square_ft = models.IntegerField(blank=True)
+    water_front = models.IntegerField(blank=True)
+    built = models.IntegerField(blank=True)
+    description = models.TextField(blank=True, max_length=400)
+    owner = models.CharField(max_length=50)
+    phone_number = PhoneNumberField(blank=True, region="US", help_text="Enter a valid US phone number +1XXXXXXXXXX.", validators=[
+        validate_us_phone_number])
+
+
+class Comments(models.Model):
+    '''Comments from clients'''
+    author = models.CharField(max_length=50)
+    content = models.TextField(max_length=400)
+    # flag to define if the comment is going to be show or not
+    in_use = models.BooleanField()
