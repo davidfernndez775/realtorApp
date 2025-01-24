@@ -11,10 +11,10 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 # my user model
 from core.models import User
 
+
 class CustomRegisterSerializer(RegisterSerializer):
     phone = serializers.CharField(required=False, validators=[
                                   validate_us_phone_number])
-    
 
     def get_cleaned_data(self):
         return {
@@ -23,7 +23,7 @@ class CustomRegisterSerializer(RegisterSerializer):
             'email': self.validated_data.get('email', ''),
             'phone': self.validated_data.get('phone', ''),
         }
-    
+
     def save(self, request):
         adapter = get_adapter()
         user = adapter.new_user(request)
@@ -33,7 +33,8 @@ class CustomRegisterSerializer(RegisterSerializer):
             user.phone = self.cleaned_data['phone']       # add the phone
             if "password1" in self.cleaned_data:
                 try:
-                    adapter.clean_password(self.cleaned_data['password1'], user=user)
+                    adapter.clean_password(
+                        self.cleaned_data['password1'], user=user)
                 except DjangoValidationError as exc:
                     raise serializers.ValidationError(
                         detail=serializers.as_serializer_error(exc)
@@ -50,67 +51,65 @@ class CustomRegisterSerializer(RegisterSerializer):
             raise e
 
 
+# class CustomRegisterSerializer2(serializers.Serializer):
+#     email = serializers.EmailField(required=True, validators=[
+#                                    EmailValidator(message="Invalid email format.")])
+#     username = serializers.CharField(required=True)
+#     phone = serializers.CharField(required=False, validators=[
+#                                   validate_us_phone_number])
+#     password1 = serializers.CharField(write_only=True)
+#     password2 = serializers.CharField(write_only=True)
 
+#     class Meta:
+#         model = User
+#         fields = ('username', 'email', 'password', 'phone')
 
-class CustomRegisterSerializer2(serializers.Serializer):
-    email = serializers.EmailField(required=True, validators=[
-                                   EmailValidator(message="Invalid email format.")])
-    username = serializers.CharField(required=True)
-    phone = serializers.CharField(required=False, validators=[
-                                  validate_us_phone_number])
-    password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
+#     def validate(self, data):
+#         if data['password1'] != data['password2']:
+#             raise serializers.ValidationError("Passwords don't match.")
+#         return data
 
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password', 'phone')
+#     def normalize_email(self, email):
+#         """Normalize the email domain."""
+#         local_part, domain_part = email.rsplit('@', 1)
+#         domain_part = domain_part.lower()  # Normalize domain to lowercase
+#         return f"{local_part}@{domain_part}"
 
-    def validate(self, data):
-        if data['password1'] != data['password2']:
-            raise serializers.ValidationError("Passwords don't match.")
-        return data
-
-    def normalize_email(self, email):
-        """Normalize the email domain."""
-        local_part, domain_part = email.rsplit('@', 1)
-        domain_part = domain_part.lower()  # Normalize domain to lowercase
-        return f"{local_part}@{domain_part}"
-
-    def save(self, request):
-        validated_data = self.validated_data
-        adapter = get_adapter()
-        try:
-            # create the user object
-            user = adapter.new_user(request)
-            user.email = self.normalize_email(validated_data.get('email'))
-            user.username = validated_data.get('username')
-            user.phone = validated_data.get('phone')
-            # validate password
-            try:
-                validate_password(validated_data['password1'], user)
-            except DjangoValidationError as e:
-                raise serializers.ValidationError(
-                    {'password1': list(e.messages)})
-            user.set_password(validated_data['password1'])
-            user.save()
-            setup_user_email(request, user, [])
-            return user
-        except IntegrityError as e:
-            # Verify if the exception is caused by a duplicate email
-            if 'duplicate key value violates unique constraint "core_user_email_key"' in str(e):
-                raise ValidationError(
-                    {'email': 'A user with this email already exists.'})
-            # Verify if the exception is caused by a duplicate username
-            if 'duplicate key value violates unique constraint "core_user_username_36e4f7f7_uniq"' in str(e):
-                raise ValidationError(
-                    {'username': 'A user with this username already exists.'})
-            raise serializers.ValidationError(
-                {"error": "A database error occurred. Please try again."})
-            # raise other exceptions from database
-            raise e
-        except Exception as e:
-            # Catch unexpected errors and raise a 400 response
-            raise serializers.ValidationError({"error": str(e)})
+#     def save(self, request):
+#         validated_data = self.validated_data
+#         adapter = get_adapter()
+#         try:
+#             # create the user object
+#             user = adapter.new_user(request)
+#             user.email = self.normalize_email(validated_data.get('email'))
+#             user.username = validated_data.get('username')
+#             user.phone = validated_data.get('phone')
+#             # validate password
+#             try:
+#                 validate_password(validated_data['password1'], user)
+#             except DjangoValidationError as e:
+#                 raise serializers.ValidationError(
+#                     {'password1': list(e.messages)})
+#             user.set_password(validated_data['password1'])
+#             user.save()
+#             setup_user_email(request, user, [])
+#             return user
+#         except IntegrityError as e:
+#             # Verify if the exception is caused by a duplicate email
+#             if 'duplicate key value violates unique constraint "core_user_email_key"' in str(e):
+#                 raise ValidationError(
+#                     {'email': 'A user with this email already exists.'})
+#             # Verify if the exception is caused by a duplicate username
+#             if 'duplicate key value violates unique constraint "core_user_username_36e4f7f7_uniq"' in str(e):
+#                 raise ValidationError(
+#                     {'username': 'A user with this username already exists.'})
+#             raise serializers.ValidationError(
+#                 {"error": "A database error occurred. Please try again."})
+#             # raise other exceptions from database
+#             raise e
+#         except Exception as e:
+#             # Catch unexpected errors and raise a 400 response
+#             raise serializers.ValidationError({"error": str(e)})
 
 
 class CustomUserDetailsSerializer(serializers.ModelSerializer):

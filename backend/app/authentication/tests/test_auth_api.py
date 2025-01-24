@@ -17,7 +17,7 @@ REGISTER_URL = reverse('authentication:rest_register')
 LOGIN_URL = reverse('authentication:rest_login')
 USER_URL = reverse('authentication:rest_user_details')
 LOGOUT_URL = reverse('authentication:rest_logout')
-RESET_PASSWORD_URL = reverse('password_reset_confirm')
+# RESET_PASSWORD_URL = reverse('password_reset_confirm')
 
 
 def create_user(**params):

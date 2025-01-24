@@ -33,5 +33,5 @@ class CustomRegisterView(RegisterView):
         }, status=status.HTTP_201_CREATED)
 
 
-class CustomUpdateView(UserDetailsView):
+class CustomUserDetailsView(UserDetailsView):
     serializer_class = CustomUserDetailsSerializer
