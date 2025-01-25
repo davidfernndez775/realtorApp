@@ -25,5 +25,14 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(models.User, UserAdmin)
-admin.site.register(models.RealEstateProperty)
+# admin.site.register(models.RealEstateProperty)
 admin.site.register(models.Comments)
+
+# PropertyImage is register throw RealEstateProperty
+class PropertyImageInline(admin.TabularInline):
+    model = models.PropertyImage
+    extra = 1
+
+@admin.register(models.RealEstateProperty)
+class RealEstatePropertyAdmin(admin.ModelAdmin):
+    inlines = [PropertyImageInline]

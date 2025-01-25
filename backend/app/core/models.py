@@ -5,6 +5,7 @@ import uuid
 import os
 from django.conf import settings
 from django.db import models
+from django.utils.timezone import now
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
@@ -16,13 +17,13 @@ from core.validators import validate_coordinates, validate_zip_code, validate_bu
 
 
 def recipe_image_file_path(instance, filename):
-    '''Generate a file path for new recipe image'''
+    '''Generate a file path for new property image'''
     # take the extension from the name of the file
     ext = os.path.splitext(filename)[1]
     # assign a unique name and add the extension again
     filename = f'{uuid.uuid4()}{ext}'
     # return the full path
-    return os.path.join('uploads', 'recipe', filename)
+    return os.path.join('uploads', 'property', filename)
 
 
 class UserManager(BaseUserManager):
@@ -142,9 +143,25 @@ class RealEstateProperty(models.Model):
     owner = models.CharField(max_length=50)
     phone_number = PhoneNumberField(blank=True, region="US", help_text="Enter a valid US phone number +1XXXXXXXXXX.", validators=[
         validate_us_phone_number])
+    created_at = models.DateTimeField(default=now)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.title
+
+
+class PropertyImage(models.Model):
+    '''Images for property dossier'''
+    property = models.ForeignKey(
+        RealEstateProperty, 
+        on_delete=models.CASCADE, 
+        related_name='images'
+    )
+    image = models.ImageField(upload_to=recipe_image_file_path)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image for {self.property.title}"
 
 
 class Comments(models.Model):
