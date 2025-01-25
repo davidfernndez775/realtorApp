@@ -12,7 +12,7 @@ from django.contrib.auth.models import (
 from phonenumber_field.modelfields import PhoneNumberField
 from phonenumber_field.phonenumber import PhoneNumber
 from authentication.validators import validate_us_phone_number
-from core.validators import validate_coordinates, validate_zip_code
+from core.validators import validate_coordinates, validate_zip_code, validate_built
 
 
 def recipe_image_file_path(instance, filename):
@@ -83,10 +83,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 class RealEstateProperty(models.Model):
     # create the option's systems
     class PropertyType(models.TextChoices):
-        HOUSE = 'house', 'Casa'
-        BUILDING = 'building', 'Edificio'
-        CHALET = 'chalet', 'Chalet'
-        LAND = 'land', 'Terreno'
+        SINGLE_FAMILY='Single Family'
+        CONDO='Condo/Co-Op/Villa/Townhouse'
+        MULTI_FAMILY='Multi-Family Income'
+        RESIDENTIAL_LAND='Residential Land/Boat Docks'
+        BUSSINESS='Land-Commercial/Business/Agricultural/Industrial'
+        RESIDENTIAL_RENTAL='Residential Rental'
+        COMMERCIAL='Commercial/Industrial'
+        BUSSINESS_BROKERAGE='Business Brokerage'
 
     class PropertyStatus(models.TextChoices):
         FOR_SALE = 'for_sale', 'En venta'
@@ -114,7 +118,7 @@ class RealEstateProperty(models.Model):
     lat = models.DecimalField(max_digits=8, decimal_places=5, help_text="Enter a valid coordinate, 1 to 3 digits before the comma and 5 after.", validators=[
                               validate_coordinates])
     property_type = models.CharField(
-        max_length=20,
+        max_length=100,
         choices=PropertyType.choices,
     )
     address = models.TextField(max_length=255)
@@ -132,12 +136,15 @@ class RealEstateProperty(models.Model):
     full_baths = models.IntegerField(blank=True)
     half_baths = models.IntegerField(blank=True)
     square_ft = models.IntegerField(blank=True)
-    water_front = models.IntegerField(blank=True)
-    built = models.IntegerField(blank=True)
+    water_front = models.BooleanField(default=False)
+    built = models.IntegerField(blank=True, validators=[validate_built])
     description = models.TextField(blank=True, max_length=400)
     owner = models.CharField(max_length=50)
     phone_number = PhoneNumberField(blank=True, region="US", help_text="Enter a valid US phone number +1XXXXXXXXXX.", validators=[
         validate_us_phone_number])
+    
+    def __str__(self):
+        return self.title
 
 
 class Comments(models.Model):
@@ -146,3 +153,6 @@ class Comments(models.Model):
     content = models.TextField(max_length=400)
     # flag to define if the comment is going to be show or not
     in_use = models.BooleanField()
+    
+    def __str__(self):
+        return self.content

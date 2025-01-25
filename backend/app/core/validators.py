@@ -20,3 +20,11 @@ def validate_zip_code(value):
         raise ValidationError(
             f"{value} is not a valid zip code, it must have 5 digits"
         )
+    
+def validate_built(value):
+    '''Validate the year format'''
+    year_pattern = re.compile(r"\d{4}$")
+    if not year_pattern.match(str(value)) or value < 1800 or value > 2025:
+        raise ValidationError(
+            f'{value} is not a valid year'
+        )
