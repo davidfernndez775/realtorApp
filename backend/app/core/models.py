@@ -80,6 +80,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     # replace the authentication field username by the email field
     USERNAME_FIELD = 'email'
 
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
+        ordering = ["-id"]
+
 
 class RealEstateProperty(models.Model):
     # create the option's systems
@@ -145,6 +150,11 @@ class RealEstateProperty(models.Model):
         validate_us_phone_number])
     created_at = models.DateTimeField(default=now)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Real Estate Property"
+        verbose_name_plural = "Real Estate Properties"
+        ordering = ["-id"]
     
     def __str__(self):
         return self.title
@@ -170,6 +180,11 @@ class Comments(models.Model):
     content = models.TextField(max_length=400)
     # flag to define if the comment is going to be show or not
     in_use = models.BooleanField()
+
+    class Meta:
+        verbose_name = "Comment"
+        verbose_name_plural = "Comments"
+        ordering = ["-id"]
     
     def __str__(self):
         return self.content

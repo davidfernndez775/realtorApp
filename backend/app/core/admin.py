@@ -26,7 +26,12 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(models.User, UserAdmin)
 # admin.site.register(models.RealEstateProperty)
-admin.site.register(models.Comments)
+# admin.site.register(models.Comments)
+
+@admin.register(models.Comments)
+class CommentsAdmin(admin.ModelAdmin):
+    list_display=['content', 'in_use']
+    list_filter = ['in_use']
 
 # PropertyImage is register throw RealEstateProperty
 class PropertyImageInline(admin.TabularInline):
@@ -37,5 +42,6 @@ class PropertyImageInline(admin.TabularInline):
 class RealEstatePropertyAdmin(admin.ModelAdmin):
     inlines = [PropertyImageInline]
     list_display = ['title', 'price', 'owner']
+    list_filter = ['property_type', 'price', 'for_rent_or_sale', 'county', 'beds', 'full_baths', 'half_baths', 'water_front', 'built']
     fieldsets = ((None,{'fields':('title', 'lon','lat','property_type', 'address', 'zip_code', 'for_rent_or_sale', 'price')}), (_('DESCRIPTION'),{'fields': ('beds', 'full_baths', 'half_baths', 'water_front', 'built', 'description')}),(_('OWNER INFO'),{'fields':('owner', 'phone_number')}),(_('IMPORTANT DATES'),{'fields':('created_at','updated_at')}))
     readonly_fields = ['created_at','updated_at']

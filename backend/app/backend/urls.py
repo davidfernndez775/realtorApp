@@ -10,7 +10,7 @@ from dj_rest_auth.registration.views import RegisterView, VerifyEmailView, Confi
 from dj_rest_auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin-site/', admin.site.urls),
     # *documentation paths
     path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='api-schema'),
@@ -24,6 +24,10 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/',
          PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]
+
+admin.site.site_title = "RealtorApp admin (DEV)"
+admin.site.site_header = "RealtorApp administration"
+admin.site.index_title = "Site administration"
 
 # only in development mode
 if settings.DEBUG:
