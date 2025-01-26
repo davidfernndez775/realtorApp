@@ -36,3 +36,6 @@ class PropertyImageInline(admin.TabularInline):
 @admin.register(models.RealEstateProperty)
 class RealEstatePropertyAdmin(admin.ModelAdmin):
     inlines = [PropertyImageInline]
+    list_display = ['title', 'price', 'owner']
+    fieldsets = ((None,{'fields':('title', 'lon','lat','property_type', 'address', 'zip_code', 'for_rent_or_sale', 'price')}), (_('DESCRIPTION'),{'fields': ('beds', 'full_baths', 'half_baths', 'water_front', 'built', 'description')}),(_('OWNER INFO'),{'fields':('owner', 'phone_number')}),(_('IMPORTANT DATES'),{'fields':('created_at','updated_at')}))
+    readonly_fields = ['created_at','updated_at']
