@@ -145,6 +145,7 @@ class RealEstateProperty(models.Model):
     water_front = models.BooleanField(default=False)
     built = models.IntegerField(blank=True, validators=[validate_built])
     description = models.TextField(blank=True, max_length=400)
+    # fields only for admin
     owner = models.CharField(max_length=50)
     phone_number = PhoneNumberField(blank=True, region="US", help_text="Enter a valid US phone number +1XXXXXXXXXX.", validators=[
         validate_us_phone_number])
