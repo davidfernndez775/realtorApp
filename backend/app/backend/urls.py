@@ -22,7 +22,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     # forgot passwords endpoints
     path('password-reset/', PasswordResetView.as_view()),
-    path('password-reset-confirm/<uidb64>/<token>/',
+    path('password-reset-confirm/<str:uidb64>/<str:token>/',
          PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]
 
