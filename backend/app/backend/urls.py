@@ -17,6 +17,7 @@ urlpatterns = [
          name='api-docs'),
     # *API paths
     path('app/auth/', include('authentication.urls')),
+    path('app/real-estate/', include('realstateproperties.urls')),
     # for check registration email
     path('accounts/', include('allauth.urls')),
     # forgot passwords endpoints

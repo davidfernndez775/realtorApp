@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'core',
     'authentication',
+    'realstateproperties',
     # 'authentication.apps.AuthenticationConfig',
 ]
 
