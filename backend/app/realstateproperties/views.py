@@ -6,6 +6,7 @@ from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiPara
 from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import RealEstatePropertiesListSerializer
 from core.models import RealEstateProperty
+from .filters import RealEstatePropertyFilter
 
 # this is only for drf-spectacular
 
@@ -67,12 +68,13 @@ class RealEstatePropertyListView(generics.ListAPIView):
     serializer_class = RealEstatePropertiesListSerializer
     queryset = RealEstateProperty.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['property_type', 'price', 'county']
+    filterset_class = RealEstatePropertyFilter
 
-    # to separate the queryparams in ints
-    def _params_to_ints(self, qs):
-        '''Convert a list of strings to integers'''
-        return [int(str_id) for str_id in qs.split(',')]
+    # # to separate the queryparams in ints
+
+    # def _params_to_ints(self, qs):
+    #     '''Convert a list of strings to integers'''
+    #     return [int(str_id) for str_id in qs.split(',')]
 
     def get_queryset(self):
         '''Retrieve filtered properties'''
@@ -93,8 +95,7 @@ class RealEstatePropertyListView(generics.ListAPIView):
         # check for query_params in request
 
         if property_type:
-            property_type = self._params_to_ints(property_type)
-            queryset = queryset.filter(property_type__id__in=property_type)
+            queryset = queryset.filter(property_type=property_type)
 
         if price:
             queryset = queryset.filter(price__lte=price)
@@ -103,8 +104,7 @@ class RealEstatePropertyListView(generics.ListAPIView):
             queryset = queryset.filter(for_rent_or_sale=for_rent_or_sale)
 
         if county:
-            county_ids = self._params_to_ints(county)
-            queryset = queryset.filter(county__id__in=county_ids)
+            queryset = queryset.filter(county=county)
 
         if beds:
             queryset = queryset.filter(beds__gte=beds)
