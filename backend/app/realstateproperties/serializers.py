@@ -11,5 +11,6 @@ class RealEstatePropertiesListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RealEstateProperty
-        fields = ['id', 'county', 'property_type']
+        fields = ['id', 'county', 'property_type', 'for_rent_or_sale',
+                  'price', 'beds', 'full_baths', 'half_baths', 'built']
         read_only_fields = ['id']
