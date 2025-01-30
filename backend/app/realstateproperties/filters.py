@@ -21,6 +21,12 @@ class RealEstatePropertyFilter(django_filters.FilterSet):
     price_max = django_filters.NumberFilter(
         field_name='price', lookup_expr='lte')
 
+    # Rango de valores para square_ft
+    square_ft_min = django_filters.NumberFilter(
+        field_name='square_ft', lookup_expr='gte')
+    square_ft_max = django_filters.NumberFilter(
+        field_name='square_ft', lookup_expr='lte')
+
     # Rango de valores para beds
     beds_min = django_filters.NumberFilter(
         field_name='beds', lookup_expr='gte')
@@ -53,4 +59,3 @@ class RealEstatePropertyFilter(django_filters.FilterSet):
             'full_baths_min', 'full_baths_max', 'half_baths_min', 'half_baths_max',
             'built_min', 'built_max'
         ]
-

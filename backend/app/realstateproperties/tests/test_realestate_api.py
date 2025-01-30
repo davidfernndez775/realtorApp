@@ -70,6 +70,14 @@ class RealEstatePropertyAPITests(TestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["price"], 300000)
 
+    def test_filter_by_square_ft_range(self):
+        """Test filtering properties by square_ft range"""
+        response = self.client.get(
+            "/app/real-estate/list/", {"square_ft_min": 2500, "square_ft_max": 3500})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["square_ft"], 2600)
+
     def test_filter_by_beds(self):
         """Test filtering properties by number of beds"""
         response = self.client.get(
