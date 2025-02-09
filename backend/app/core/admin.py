@@ -21,9 +21,16 @@ def activate_users(modeladmin, request, queryset):
 def deactivate_users(modeladmin, request, queryset):
     queryset.update(is_active=False)
 
+class FavoritePropertyInline(admin.TabularInline):
+    model = models.FavoriteProperty
+    extra = 0  # No mostrar filas vacías por defecto
+    readonly_fields = ['added_at']  # Mostrar solo lectura para la fecha
+    autocomplete_fields = ['property']  # Permite búsqueda rápida de propiedades
+
 
 class UserAdmin(BaseUserAdmin):
     '''Define the admin pages for users'''
+    inlines = [FavoritePropertyInline]  # Agregar favoritos dentro del usuario
     ordering = ['id']   # order the list by id
     list_display = ['email', 'username']    # show fields email and username
     actions = [activate_users, deactivate_users]
@@ -40,6 +47,7 @@ class UserAdmin(BaseUserAdmin):
 
 # register the model
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.FavoriteProperty)
 
 
 # *REALSTATEPROPERTY MODEL

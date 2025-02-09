@@ -60,33 +60,10 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, PermissionsMixin):
-    '''User in the system'''
-
-    email = models.EmailField(max_length=255, unique=True)
-    # 255 is CharField max_length
-    username = models.CharField(max_length=255, unique=True)
-    phone = PhoneNumberField(blank=True, region="US", help_text="Enter a valid US phone number +1XXXXXXXXXX.", validators=[
-                             validate_us_phone_number])
-    is_active = models.BooleanField(default=True)
-    # is_staff define if can access to Django Admin
-    is_staff = models.BooleanField(default=False)
-    # the fields password is in AbstractBaseUser and is_superuser
-    # is in PermissionMixin
-
-    # assign the UserManager to the class User
-    objects = UserManager()
-
-    # replace the authentication field username by the email field
-    USERNAME_FIELD = 'email'
-
-    class Meta:
-        verbose_name = "User"
-        verbose_name_plural = "Users"
-        ordering = ["-id"]
-
-
+# is before User because User have a Many to Many relation with 
+# RealStateProperty 
 class RealEstateProperty(models.Model):
+    '''Properties'''
     # create the option's systems
     class PropertyType(models.TextChoices):
         SINGLE_FAMILY='Single Family'
@@ -161,6 +138,38 @@ class RealEstateProperty(models.Model):
         return self.title
 
 
+class User(AbstractBaseUser, PermissionsMixin):
+    '''User in the system'''
+
+    email = models.EmailField(max_length=255, unique=True)
+    # 255 is CharField max_length
+    username = models.CharField(max_length=255, unique=True)
+    phone = PhoneNumberField(blank=True, region="US", help_text="Enter a valid US phone number +1XXXXXXXXXX.", validators=[
+                             validate_us_phone_number])
+    is_active = models.BooleanField(default=True)
+    # is_staff define if can access to Django Admin
+    is_staff = models.BooleanField(default=False)
+    # the fields password is in AbstractBaseUser and is_superuser
+    # is in PermissionMixin
+
+    favorite_properties = models.ManyToManyField(
+        RealEstateProperty,
+        through='FavoriteProperty',
+        related_name='favorited_by'
+    )
+
+    # assign the UserManager to the class User
+    objects = UserManager()
+
+    # replace the authentication field username by the email field
+    USERNAME_FIELD = 'email'
+
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
+        ordering = ["-id"]
+
+
 class PropertyImage(models.Model):
     '''Images for property dossier'''
     property = models.ForeignKey(
@@ -173,6 +182,21 @@ class PropertyImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.property.title}"
+
+
+class FavoriteProperty(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    property = models.ForeignKey(RealEstateProperty, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True) 
+
+    class Meta:
+        unique_together = ('user', 'property')  # Avoid duplicates
+        verbose_name = "Favorite Property"
+        verbose_name_plural = "Favorite Properties"
+
+    def __str__(self):
+        return f"{self.user.email} - {self.property.title}"
+
 
 
 class Comments(models.Model):
