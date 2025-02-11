@@ -2,6 +2,11 @@
 Django admin customization
 '''
 
+# for import-export admin data
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+from import_export.formats.base_formats import XLSX
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
@@ -21,16 +26,28 @@ def activate_users(modeladmin, request, queryset):
 def deactivate_users(modeladmin, request, queryset):
     queryset.update(is_active=False)
 
+
 class FavoritePropertyInline(admin.TabularInline):
     model = models.FavoriteProperty
     extra = 0  # No mostrar filas vacías por defecto
     readonly_fields = ['added_at']  # Mostrar solo lectura para la fecha
-    autocomplete_fields = ['property']  # Permite búsqueda rápida de propiedades
+    # Permite búsqueda rápida de propiedades
+    autocomplete_fields = ['property']
 
 
-class UserAdmin(BaseUserAdmin):
+class UsersResoucers(resources.ModelResource):
+
+    class Meta:
+        model = models.User
+
+    def get_export_formats(self):
+        return [XLSX()]
+
+
+class UserAdmin(ImportExportModelAdmin):
     '''Define the admin pages for users'''
     inlines = [FavoritePropertyInline]  # Agregar favoritos dentro del usuario
+    resource_class = UsersResoucers
     ordering = ['id']   # order the list by id
     list_display = ['email', 'username']    # show fields email and username
     actions = [activate_users, deactivate_users]

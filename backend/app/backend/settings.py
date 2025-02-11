@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'core',
     'authentication',
     'realstateproperties',
+    'import_export',
     # 'authentication.apps.AuthenticationConfig',
 ]
 
