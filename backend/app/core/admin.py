@@ -35,7 +35,8 @@ class FavoritePropertyInline(admin.TabularInline):
     autocomplete_fields = ['property']
 
 
-class UsersResoucers(resources.ModelResource):
+# to import export from admin
+class UsersResources(resources.ModelResource):
 
     class Meta:
         model = models.User
@@ -47,7 +48,7 @@ class UsersResoucers(resources.ModelResource):
 class UserAdmin(ImportExportModelAdmin):
     '''Define the admin pages for users'''
     inlines = [FavoritePropertyInline]  # Agregar favoritos dentro del usuario
-    resource_class = UsersResoucers
+    resource_class = UsersResources
     ordering = ['id']   # order the list by id
     list_display = ['email', 'username']    # show fields email and username
     actions = [activate_users, deactivate_users]
@@ -73,10 +74,20 @@ class PropertyImageInline(admin.TabularInline):
     model = models.PropertyImage
     extra = 1
 
+# to import export from admin
+class RealEstateResources(resources.ModelResource):
+
+    class Meta:
+        model = models.RealEstateProperty
+
+    def get_export_formats(self):
+        return [XLSX()]
+
 
 @admin.register(models.RealEstateProperty)
-class RealEstatePropertyAdmin(admin.ModelAdmin):
+class RealEstatePropertyAdmin(ImportExportModelAdmin):
     inlines = [PropertyImageInline]
+    resource_class = RealEstateResources
     list_display = ['title', 'price', 'owner']
     search_fields = ['title', 'owner']
     list_filter = ['property_type', 'price', 'for_rent_or_sale', 'county',
