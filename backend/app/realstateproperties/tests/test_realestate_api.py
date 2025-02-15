@@ -1,6 +1,12 @@
+'''
+Tests for real state properties API
+'''
+
 from django.test import TestCase
+
 from rest_framework.test import APIClient
 from rest_framework import status
+
 from core.models import RealEstateProperty
 
 
@@ -11,7 +17,7 @@ class RealEstatePropertyAPITests(TestCase):
         """Set up test data"""
         self.client = APIClient()
 
-        # Crear algunas propiedades de prueba
+        # Create some real state properties
         self.property1 = RealEstateProperty.objects.create(
             title="Casa en Miami",
             lon=80.14534,

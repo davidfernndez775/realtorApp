@@ -1,0 +1,5 @@
+BACKEND
+-endpoint para la vista detalle de una propiedad
+-endpoint para agregar un favorito a la lista
+-endpoint para ver la lista de favoritos puede ser un user detail
+-agregar jet-reboot al django admin

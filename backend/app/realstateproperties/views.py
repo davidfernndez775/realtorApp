@@ -1,11 +1,13 @@
 '''
 Views for the realstateproperties API
 '''
-from rest_framework import generics
-from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter, OpenApiTypes
+
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import RealEstatePropertiesListSerializer
+
+from rest_framework import generics
+
 from core.models import RealEstateProperty
+from .serializers import RealEstatePropertiesListSerializer
 from .filters import RealEstatePropertyFilter
 
 
@@ -19,4 +21,11 @@ class RealEstatePropertyListView(generics.ListAPIView):
 
 class RealEstatePropertyDetailView(generics.RetrieveAPIView):
     '''Return a detail page of a property'''
+    serializer_class=RealEstatePropertiesListSerializer
+    queryset = RealEstateProperty.objects.all()
+
+
+
+
+
 

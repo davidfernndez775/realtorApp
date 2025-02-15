@@ -2,6 +2,9 @@
 Test for the authentication API
 '''
 
+from allauth.account.utils import send_email_confirmation
+from allauth.account.models import EmailAddress
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -10,8 +13,6 @@ from django.core import mail
 from rest_framework.test import APIClient
 from rest_framework import status
 
-from allauth.account.utils import send_email_confirmation
-from allauth.account.models import EmailAddress
 
 REGISTER_URL = reverse('authentication:rest_register')
 LOGIN_URL = reverse('authentication:rest_login')
@@ -128,9 +129,6 @@ class PublicUserApiTests(TestCase):
             }
             res = self.client.post(REGISTER_URL, payload)
             count += 1
-            #     # Inspecciona los datos almacenados
-            # user = get_user_model().objects.filter(email__iexact=expected).first()
-            # print(f"Expected: {expected}, Stored: {user.email if user else 'No user found'}")
             # check there is an user in database with an email equal to the expected
             user_exists = get_user_model().objects.filter(email=expected).exists()
             self.assertTrue(user_exists)

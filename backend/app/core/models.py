@@ -1,17 +1,20 @@
 '''
 Database models
 '''
+
 import uuid
 import os
+# to handle phonenumbers
+from phonenumber_field.modelfields import PhoneNumberField
+from phonenumber_field.phonenumber import PhoneNumber
+
 from django.conf import settings
 from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
-# to handle phonenumbers
-from phonenumber_field.modelfields import PhoneNumberField
-from phonenumber_field.phonenumber import PhoneNumber
+
 from authentication.validators import validate_us_phone_number
 from core.validators import validate_coordinates, validate_zip_code, validate_built
 
@@ -38,9 +41,6 @@ class UserManager(BaseUserManager):
         # check that email exists
         if not email:
             raise ValueError('User most have an email address')
-        # # convert the phone from string to PhoneNumber
-        # phone=PhoneNumber.from_string(phone)
-        # create the user and normalize the email after the @,
         # normalize_email is a method of the class BaseUserManager
         user = self.model(email=self.normalize_email(email), **extra_fields)
         # the password is added after encripted
@@ -60,7 +60,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-# is before User because User have a Many to Many relation with 
+# This is before User, because User have a Many to Many relation with 
 # RealStateProperty 
 class RealEstateProperty(models.Model):
     '''Properties'''
@@ -169,6 +169,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "Users"
         ordering = ["-id"]
 
+    def __str__(self):
+        return self.username
 
 class PropertyImage(models.Model):
     '''Images for property dossier'''
@@ -185,6 +187,7 @@ class PropertyImage(models.Model):
 
 
 class FavoriteProperty(models.Model):
+    '''Favorite realstate properties list'''
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(RealEstateProperty, on_delete=models.CASCADE)
     added_at = models.DateTimeField(auto_now_add=True) 

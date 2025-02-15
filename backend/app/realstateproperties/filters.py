@@ -1,3 +1,7 @@
+'''
+Filters for real estate properties
+'''
+
 import django_filters
 from core.models import RealEstateProperty
 
@@ -15,37 +19,37 @@ class RealEstatePropertyFilter(django_filters.FilterSet):
         field_name='for_rent_or_sale',
         choices=RealEstateProperty.PropertyStatus.choices
     )
-    # Rango de valores para price
+    # Price range values
     price_min = django_filters.NumberFilter(
         field_name='price', lookup_expr='gte')
     price_max = django_filters.NumberFilter(
         field_name='price', lookup_expr='lte')
 
-    # Rango de valores para square_ft
+    # Square_ft range values
     square_ft_min = django_filters.NumberFilter(
         field_name='square_ft', lookup_expr='gte')
     square_ft_max = django_filters.NumberFilter(
         field_name='square_ft', lookup_expr='lte')
 
-    # Rango de valores para beds
+    # Beds range values
     beds_min = django_filters.NumberFilter(
         field_name='beds', lookup_expr='gte')
     beds_max = django_filters.NumberFilter(
         field_name='beds', lookup_expr='lte')
 
-    # Rango de valores para full_baths
+    # Full_baths range values
     full_baths_min = django_filters.NumberFilter(
         field_name='full_baths', lookup_expr='gte')
     full_baths_max = django_filters.NumberFilter(
         field_name='full_baths', lookup_expr='lte')
 
-    # Rango de valores para half_baths
+    # Half_baths range values
     half_baths_min = django_filters.NumberFilter(
         field_name='half_baths', lookup_expr='gte')
     half_baths_max = django_filters.NumberFilter(
         field_name='half_baths', lookup_expr='lte')
 
-    # Rango de valores para built (año de construcción)
+    # Built range values
     built_min = django_filters.NumberFilter(
         field_name='built', lookup_expr='gte')
     built_max = django_filters.NumberFilter(

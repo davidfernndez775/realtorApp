@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 from core import models
 
 # *USER MODEL
-# define actions for admin panel
+# define actions for admin panel in list view
 
 
 @admin.action(description="Activate selected users")
@@ -47,7 +47,7 @@ class UsersResources(resources.ModelResource):
 
 class UserAdmin(ImportExportModelAdmin):
     '''Define the admin pages for users'''
-    inlines = [FavoritePropertyInline]  # Agregar favoritos dentro del usuario
+    inlines = [FavoritePropertyInline]  # add favorite properties inside user detail view
     resource_class = UsersResources
     ordering = ['id']   # order the list by id
     list_display = ['email', 'username']    # show fields email and username
@@ -105,4 +105,4 @@ class CommentsAdmin(admin.ModelAdmin):
     list_filter = ['in_use']
 
 
-# TODO implement DjangQL for queries and import-export for Excel, CSV and JSON
+
