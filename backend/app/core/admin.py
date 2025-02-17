@@ -29,9 +29,9 @@ def deactivate_users(modeladmin, request, queryset):
 
 class FavoritePropertyInline(admin.TabularInline):
     model = models.FavoriteProperty
-    extra = 0  # No mostrar filas vacías por defecto
-    readonly_fields = ['added_at']  # Mostrar solo lectura para la fecha
-    # Permite búsqueda rápida de propiedades
+    extra = 0  # don't show empty rows by default
+    readonly_fields = ['added_at']
+    # fast search for real state properties
     autocomplete_fields = ['property']
 
 
@@ -47,11 +47,14 @@ class UsersResources(resources.ModelResource):
 
 class UserAdmin(ImportExportModelAdmin):
     '''Define the admin pages for users'''
-    inlines = [FavoritePropertyInline]  # add favorite properties inside user detail view
+    inlines = [
+        FavoritePropertyInline]  # add favorite properties inside user detail view
     resource_class = UsersResources
     ordering = ['id']   # order the list by id
     list_display = ['email', 'username']    # show fields email and username
+    search_fields = ['username', 'email']
     actions = [activate_users, deactivate_users]
+    list_filter = ['is_active', 'is_staff', 'is_superuser']
     fieldsets = ((None, {'fields': ('email', 'password', 'username', 'phone')}),
                  (_('Permissions'), {'fields': (
                      'is_active', 'is_staff', 'is_superuser')}),
@@ -75,6 +78,8 @@ class PropertyImageInline(admin.TabularInline):
     extra = 1
 
 # to import export from admin
+
+
 class RealEstateResources(resources.ModelResource):
 
     class Meta:
@@ -103,6 +108,3 @@ class RealEstatePropertyAdmin(ImportExportModelAdmin):
 class CommentsAdmin(admin.ModelAdmin):
     list_display = ['content', 'in_use']
     list_filter = ['in_use']
-
-
-
