@@ -96,5 +96,5 @@ class FavoritePropertySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FavoriteProperty
-        fields = ['id', 'user', 'property', 'added_at']
-        read_only_fields =['id', 'added_at']
+        fields = ['id', 'property', 'added_at']
+        read_only_fields = ['id', 'added_at']
