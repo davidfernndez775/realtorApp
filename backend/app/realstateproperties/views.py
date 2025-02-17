@@ -21,11 +21,8 @@ class RealEstatePropertyListView(generics.ListAPIView):
 
 class RealEstatePropertyDetailView(generics.RetrieveAPIView):
     '''Return a detail page of a property'''
-    serializer_class=RealEstatePropertiesListSerializer
-    queryset = RealEstateProperty.objects.all()
+    serializer_class = RealEstatePropertiesListSerializer
 
-
-
-
-
-
+    # redefine the queryset for retrieve only the property
+    def get_queryset(self):
+        return RealEstateProperty.objects.filter(pk=self.kwargs["pk"])
