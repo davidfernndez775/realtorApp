@@ -1,5 +1,5 @@
 # from dj_rest_auth.registration.views import RegisterView
-from authentication.views import CustomRegisterView, CustomUserDetailsView, FavoritePropertyToggleView
+from authentication.views import CustomRegisterView, CustomUserDetailsView, FavoritePropertyToggleView, FavoritePropertyListView
 from dj_rest_auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView
 from dj_rest_auth.registration.views import VerifyEmailView
 from allauth.account.views import ConfirmEmailView
@@ -24,6 +24,8 @@ urlpatterns = [
     # email check
     path('verify-email/', VerifyEmailView.as_view(), name='rest_verify_email'),
     # list of favorites
+    path('favorites/',
+         FavoritePropertyListView.as_view(), name='favorites_list'),
     path('favorites/<int:property_id>',
-         FavoritePropertyToggleView.as_view(), name='favorite')
+         FavoritePropertyToggleView.as_view(), name='favorite_toggle')
 ]

@@ -54,6 +54,7 @@ class FavoritePropertyToggleView(generics.GenericAPIView):
 
     # as I use a toggleview I only need implement a post method because if the property is
     # in the list of favorites when I made the post, it gets remove from the list
+
     def post(self, request, *args, **kwargs):
         property_id = kwargs.get("property_id")
         user = request.user
@@ -71,3 +72,10 @@ class FavoritePropertyToggleView(generics.GenericAPIView):
             return Response({"detail": "Property removed from favorites."}, status=status.HTTP_200_OK)
 
         return Response({"detail": "Property added to favorites."}, status=status.HTTP_201_CREATED)
+
+
+class FavoritePropertyListView(generics.ListAPIView):
+    '''Return a list of the favorite properties'''
+    serializer_class = FavoritePropertySerializer
+    permission_classes = [IsAuthenticated]
+    queryset = FavoriteProperty.objects.all()
