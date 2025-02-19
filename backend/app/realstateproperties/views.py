@@ -6,8 +6,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import generics
 
-from core.models import RealEstateProperty
-from .serializers import RealEstatePropertiesListSerializer
+from core.models import RealEstateProperty, PropertyImage
+from .serializers import RealEstatePropertiesListSerializer, RealEstatePropertiesDetailtSerializer, PropertyImageSerializer
 from .filters import RealEstatePropertyFilter
 
 
@@ -21,8 +21,20 @@ class RealEstatePropertyListView(generics.ListAPIView):
 
 class RealEstatePropertyDetailView(generics.RetrieveAPIView):
     '''Return a detail page of a property'''
-    serializer_class = RealEstatePropertiesListSerializer
+    serializer_class = RealEstatePropertiesDetailtSerializer
 
     # redefine the queryset for retrieve only the property
     def get_queryset(self):
         return RealEstateProperty.objects.filter(pk=self.kwargs["pk"])
+
+
+class PropertyImageListView(generics.ListAPIView):
+    '''Vista para listar imágenes de propiedades'''
+    serializer_class = PropertyImageSerializer
+    queryset = PropertyImage.objects.all()  # Base queryset
+
+    def get_queryset(self):
+        '''Filter images by property_id'''
+        property_id = self.request.query_params.get('property_id')
+
+        return self.queryset.filter(property_id=property_id)
