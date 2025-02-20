@@ -122,6 +122,8 @@ class RealEstateProperty(models.Model):
     water_front = models.BooleanField(default=False)
     built = models.IntegerField(blank=True, validators=[validate_built])
     description = models.TextField(blank=True, max_length=400)
+    new = models.BooleanField(default=False)
+    price_decrease = models.BooleanField(default=False)
     # fields only for admin
     owner = models.CharField(max_length=50)
     phone_number = PhoneNumberField(blank=True, region="US", help_text="Enter a valid US phone number +1XXXXXXXXXX.", validators=[
@@ -133,6 +135,14 @@ class RealEstateProperty(models.Model):
         verbose_name = "Real Estate Property"
         verbose_name_plural = "Real Estate Properties"
         ordering = ["-id"]
+
+    # modify to add logic por price_decrease
+    def save(self, *args, **kwargs):
+        if self.pk:  # check if the instance exists in database
+            previous = RealEstateProperty.objects.filter(pk=self.pk).first()
+            if previous and self.price < previous.price:
+                self.price_decrease = True
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return self.title

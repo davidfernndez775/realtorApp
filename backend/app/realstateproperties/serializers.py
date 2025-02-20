@@ -12,7 +12,7 @@ class RealEstatePropertiesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = RealEstateProperty
         fields = ['id', 'title', 'county', 'property_type', 'for_rent_or_sale',
-                  'price', 'square_ft', 'beds']
+                  'price', 'square_ft', 'beds', 'new', 'price_decrease']
         read_only_fields = ['id']
 
 class PropertyImageSerializer(serializers.ModelSerializer):
@@ -29,6 +29,6 @@ class RealEstatePropertiesDetailtSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RealEstateProperty
-        fields = ['id', 'title', 'county', 'address', 'zip_code', 'property_type', 'for_rent_or_sale', 'price', 'square_ft', 'beds', 'full_baths', 'half_baths', 'built', 'water_front', 'description', 'images']
+        fields = ['id', 'title', 'county', 'address', 'zip_code', 'property_type', 'for_rent_or_sale', 'price', 'square_ft', 'beds', 'new', 'price_decrease', 'full_baths', 'half_baths', 'built', 'water_front', 'description', 'images']
         read_only_fields = ['id']
 
