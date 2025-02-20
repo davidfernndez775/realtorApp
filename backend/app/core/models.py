@@ -240,23 +240,24 @@ previous_prices = {}
 
 @receiver(pre_save, sender=RealEstateProperty)
 def store_previous_price(sender, instance, **kwargs):
-    """ Guarda el precio anterior antes de actualizar el modelo """
-    if instance.pk:  # Solo si la propiedad ya existe (no en creaciones nuevas)
+    """ Save the previous price before update the model """
+    if instance.pk:  # only if the property exists (not in new creations)
         previous_price = RealEstateProperty.objects.filter(pk=instance.pk).values_list("price", flat=True).first()
         if previous_price is not None:
             previous_prices[instance.pk] = previous_price
 
 @receiver(post_save, sender=RealEstateProperty)
 def notify_price_decrease(sender, instance, **kwargs):
+    '''Send an price decrease alert email to the users with the property in his favorites'''
     if instance.price_decrease and instance.pk in previous_prices:
-        previous_price = previous_prices.pop(instance.pk)  # Recuperamos el precio anterior y lo eliminamos del diccionario
+        previous_price = previous_prices.pop(instance.pk)  # retrieve the previous price and delete it from dictionary
         
         if previous_price > instance.price:
             price_drop_percentage = ((previous_price - instance.price) / previous_price) * 100
         else:
-            price_drop_percentage = 0  # Evita errores si el precio no disminuyó
+            price_drop_percentage = 0  # Avoid errors if the price don't decrease
 
-        # Buscar usuarios que tengan la propiedad en favoritos
+        # Search for users with the property in his favorite lists
         favorite_users = FavoriteProperty.objects.filter(property=instance).select_related('user')
 
         for fav in favorite_users:
@@ -267,5 +268,5 @@ def notify_price_decrease(sender, instance, **kwargs):
                 message=f"The property '{instance.title}' decreased its price by {price_drop_percentage:.2f}%.",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user_email],
-                fail_silently=False,
+                fail_silently=True,
             )
