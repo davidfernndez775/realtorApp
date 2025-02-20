@@ -15,5 +15,5 @@ urlpatterns = [
         name='real-estate',
     ),
     path('property/<int:pk>', RealEstatePropertyDetailView.as_view(), name='real-state-property'),
-    path('property-images/<int:pk>', PropertyImageListView.as_view(), name='property-images'),
+    path('property-images/', PropertyImageListView.as_view(), name='property-images'),
 ]

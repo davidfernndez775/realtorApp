@@ -32,9 +32,5 @@ class PropertyImageListView(generics.ListAPIView):
     '''Vista para listar imágenes de propiedades'''
     serializer_class = PropertyImageSerializer
     queryset = PropertyImage.objects.all()  # Base queryset
-
-    def get_queryset(self):
-        '''Filter images by property_id'''
-        property_id = self.request.query_params.get('property_id')
-
-        return self.queryset.filter(property_id=property_id)
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['property']
