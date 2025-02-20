@@ -95,10 +95,8 @@ class RealEstatePropertyAdmin(ImportExportModelAdmin):
     resource_class = RealEstateResources
     list_display = ['title', 'price', 'owner']
     search_fields = ['title', 'owner']
-    list_filter = ['property_type', 'price', 'for_rent_or_sale', 'county',
-                   'beds', 'full_baths', 'half_baths', 'square_ft', 'water_front', 'built']
-    fieldsets = ((None, {'fields': ('title', 'lon', 'lat', 'property_type', 'county', 'address', 'zip_code', 'for_rent_or_sale', 'price')}), (_('DESCRIPTION'), {'fields': ('beds', 'full_baths', 'half_baths',
-                 'water_front', 'built', 'square_ft', 'description')}), (_('OWNER INFO'), {'fields': ('owner', 'phone_number')}), (_('IMPORTANT DATES'), {'fields': ('created_at', 'updated_at')}))
+    list_filter = ['property_type', 'price', 'for_rent_or_sale', 'county', 'new', 'price_decrease', 'beds', 'full_baths', 'half_baths', 'square_ft', 'water_front', 'built']
+    fieldsets = ((None, {'fields': ('title', 'lon', 'lat', 'property_type', 'county', 'address', 'zip_code', 'for_rent_or_sale', 'price', 'price_decrease', 'new')}), (_('DESCRIPTION'), {'fields': ('beds', 'full_baths', 'half_baths', 'water_front', 'built', 'square_ft', 'description')}), (_('OWNER INFO'), {'fields': ('owner', 'phone_number')}), (_('IMPORTANT DATES'), {'fields': ('created_at', 'updated_at')}))
     readonly_fields = ['created_at', 'updated_at']
 
 # *COMMENT MODEL

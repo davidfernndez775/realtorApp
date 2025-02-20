@@ -142,6 +142,8 @@ class RealEstateProperty(models.Model):
             previous = RealEstateProperty.objects.filter(pk=self.pk).first()
             if previous and self.price < previous.price:
                 self.price_decrease = True
+            else:
+                self.price_decrease = False
         super().save(*args, **kwargs)
     
     def __str__(self):
