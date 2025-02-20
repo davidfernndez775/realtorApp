@@ -1,6 +1,22 @@
 version: '3.9'
 
 services:
+  angular:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: angular-dev
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "4200:4200"
+    tty: true
+    stdin_open: true
+    depends_on:
+      - backend
+    command: tail -f /dev/null
+
   backend:
     build:               # set that the will be build from a Dockerfile
       context: ./backend      # the path to the Dockerfile
