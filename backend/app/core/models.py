@@ -14,6 +14,10 @@ from django.utils.timezone import now
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.mail import send_mail
+from django.conf import settings
 
 from authentication.validators import validate_us_phone_number
 from core.validators import validate_coordinates, validate_zip_code, validate_built
@@ -228,3 +232,22 @@ class Comments(models.Model):
     
     def __str__(self):
         return self.content
+
+
+# send email signal when price_decrease became True
+@receiver(post_save, sender=RealEstateProperty)
+def notify_price_decrease(sender, instance, **kwargs):
+    if instance.price_decrease: 
+        favorite_users = FavoriteProperty.objects.filter(property=instance).select_related('user')
+        
+        for fav in favorite_users:
+            user_email = fav.user.email
+            price_drop_percentage = ((fav.property.price - instance.price) / fav.property.price) * 100  # Calcula el % de reducción
+
+            send_mail(
+                subject="Price decrease alert",
+                message=f"The property '{instance.title}' decreased his price in {price_drop_percentage:.2f}%.",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user_email],
+                fail_silently=True,
+            )
