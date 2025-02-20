@@ -14,7 +14,7 @@ from django.utils.timezone import now
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.conf import settings
@@ -234,20 +234,38 @@ class Comments(models.Model):
         return self.content
 
 
-# send email signal when price_decrease became True
+
+#*SIGNALS
+previous_prices = {}
+
+@receiver(pre_save, sender=RealEstateProperty)
+def store_previous_price(sender, instance, **kwargs):
+    """ Guarda el precio anterior antes de actualizar el modelo """
+    if instance.pk:  # Solo si la propiedad ya existe (no en creaciones nuevas)
+        previous_price = RealEstateProperty.objects.filter(pk=instance.pk).values_list("price", flat=True).first()
+        if previous_price is not None:
+            previous_prices[instance.pk] = previous_price
+
 @receiver(post_save, sender=RealEstateProperty)
 def notify_price_decrease(sender, instance, **kwargs):
-    if instance.price_decrease: 
-        favorite_users = FavoriteProperty.objects.filter(property=instance).select_related('user')
+    if instance.price_decrease and instance.pk in previous_prices:
+        previous_price = previous_prices.pop(instance.pk)  # Recuperamos el precio anterior y lo eliminamos del diccionario
         
+        if previous_price > instance.price:
+            price_drop_percentage = ((previous_price - instance.price) / previous_price) * 100
+        else:
+            price_drop_percentage = 0  # Evita errores si el precio no disminuyó
+
+        # Buscar usuarios que tengan la propiedad en favoritos
+        favorite_users = FavoriteProperty.objects.filter(property=instance).select_related('user')
+
         for fav in favorite_users:
             user_email = fav.user.email
-            price_drop_percentage = ((fav.property.price - instance.price) / fav.property.price) * 100  # Calcula el % de reducción
 
             send_mail(
                 subject="Price decrease alert",
-                message=f"The property '{instance.title}' decreased his price in {price_drop_percentage:.2f}%.",
+                message=f"The property '{instance.title}' decreased its price by {price_drop_percentage:.2f}%.",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user_email],
-                fail_silently=True,
+                fail_silently=False,
             )
