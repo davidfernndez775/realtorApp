@@ -9,6 +9,7 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
+      - pnpm-store:/pnpm/store
     ports:
       - "4200:4200"
     tty: true
@@ -54,3 +55,4 @@ services:
 volumes:
   dev-db-data:
   dev-static-data:
+  pnpm-store:
