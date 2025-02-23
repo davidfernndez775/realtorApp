@@ -16,7 +16,10 @@ services:
     stdin_open: true
     depends_on:
       - backend
-    command: tail -f /dev/null
+    command: >
+      sh -c "pnpm install --frozen-lockfile &&
+         pnpm run start --host 0.0.0.0" && 
+         tail -f /dev/null
 
   backend:
     build:               # set that the will be build from a Dockerfile
