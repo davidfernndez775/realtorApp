@@ -1,5 +1,5 @@
 # Usar una imagen base de Node.js basada en Alpine
-FROM node:23.5-alpine3.20
+FROM node:22.14-alpine3.20
 
 # Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -15,10 +15,8 @@ ENV PNPM_HOME=/pnpm
 ENV PNPM_STORE_PATH=/app/.pnpm-store
 ENV PATH="$PNPM_HOME:$PATH"
 
-# Crear los directorios de pnpm y asignar permisos
-RUN mkdir -p $PNPM_HOME $PNPM_STORE_PATH && \
-    chmod -R 777 $PNPM_HOME $PNPM_STORE_PATH && \
-    chown -R appuser:appgroup $PNPM_HOME $PNPM_STORE_PATH
+# Crear directorios con los permisos adecuados
+RUN install -o appuser -g appgroup -d /app /pnpm /app/.pnpm-store
 
 # Configurar pnpm antes de cambiar de usuario
 RUN pnpm config set store-dir /app/.pnpm-store && \
@@ -27,26 +25,23 @@ RUN pnpm config set store-dir /app/.pnpm-store && \
     pnpm config set fetch-retry-mintimeout 100 && \
     pnpm config set fetch-retry-maxtimeout 100
 
-# Cambiar la propiedad del directorio de trabajo al usuario no root
-RUN chown -R appuser:appgroup /app /pnpm /app/.pnpm-store
+# Instalar Angular CLI globalmente como root
+RUN pnpm add -g @angular/cli
+
+# Copiar archivos de dependencias con permisos correctos
+COPY --chown=appuser:appgroup package.json pnpm-lock.yaml* ./
 
 # Cambiar al usuario no root
 USER appuser
 
-# Copiar el archivo package.json y pnpm-lock.yaml (si existe)
-COPY --chown=appuser:appgroup package.json pnpm-lock.yaml* ./
+# Instalar dependencias respetando las versiones en package.json
+RUN pnpm install --frozen-lockfile --prefer-offline
 
-# Instalar dependencias usando pnpm con --prefer-offline
-RUN pnpm install --prefer-offline
-
-# Instalar librerías adicionales
-RUN pnpm add @angular/material @angular/cdk @angular/animations primeflex dotenv --prefer-offline
-
-# Copiar el resto de los archivos de la aplicación
+# Copiar el resto del código de la aplicación
 COPY --chown=appuser:appgroup . .
 
-# Exponer el puerto en el que se ejecutará la aplicación
+# Exponer el puerto para Angular
 EXPOSE 4200
 
-# Comando por defecto para mantener el contenedor en ejecución
+# Mantener el contenedor en ejecución
 CMD ["tail", "-f", "/dev/null"]
