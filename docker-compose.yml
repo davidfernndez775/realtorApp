@@ -1,25 +1,25 @@
 version: '3.9'
 
 services:
-  angular:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: angular-dev
-    working_dir: /app
-    volumes:
-      - ./frontend:/app
-      - pnpm-store:/pnpm/store
-    ports:
-      - "4200:4200"
-    tty: true
-    stdin_open: true
-    depends_on:
-      - backend
-    command: >
-      sh -c "pnpm install --frozen-lockfile &&
-         pnpm run start --host 0.0.0.0" && 
-         tail -f /dev/null
+  # angular:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: angular-dev
+  #   working_dir: /app
+  #   volumes:
+  #     - ./frontend:/app
+  #     - pnpm-store:/pnpm/store
+  #   ports:
+  #     - "4200:4200"
+  #   tty: true
+  #   stdin_open: true
+  #   depends_on:
+  #     - backend
+  #   command: >
+  #     sh -c "pnpm install --frozen-lockfile &&
+  #        pnpm run start --host 0.0.0.0" && 
+  #        tail -f /dev/null
 
   backend:
     build:               # set that the will be build from a Dockerfile
@@ -58,4 +58,4 @@ services:
 volumes:
   dev-db-data:
   dev-static-data:
-  pnpm-store:
+  # pnpm-store:
