@@ -20,6 +20,7 @@ urlpatterns = [
     # *API paths
     path('app/auth/', include('authentication.urls')),
     path('app/real-estate/', include('realstateproperties.urls')),
+    path('app/comments/', include('comments.urls')),
     # for check registration email
     path('accounts/', include('allauth.urls')),
     # forgot passwords endpoints
