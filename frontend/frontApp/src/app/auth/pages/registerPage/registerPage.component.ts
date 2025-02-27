@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-password-reset',
+  selector: 'app-register-page',
   standalone: true,
   imports: [],
-  templateUrl: './password-reset.component.html',
-  styleUrl: './password-reset.component.css',
+  templateUrl: './registerPage.component.html',
+  styleUrl: './registerPage.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PasswordResetComponent { }
+export class RegisterPageComponent { }
