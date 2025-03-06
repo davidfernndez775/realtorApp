@@ -1,7 +1,7 @@
 .highlight-clean {
-  color: #313437;
-  background-color: #fff;
-  padding: 50px 0;
+  background: url("../../../../assets/img/logo2.svg") bottom / contain no-repeat;
+  padding: 250px 150px 150px 135px;
+  margin: 30px;
 }
 
 .highlight-clean p {
