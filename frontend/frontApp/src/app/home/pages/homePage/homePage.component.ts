@@ -3,6 +3,7 @@ import { ShowcardsComponent } from '../../components/showcards/showcards.compone
 import { OptioncardsComponent } from '../../components/optioncards/optioncards.component';
 import { WhatsappButtonComponent } from '../../../shared/components/whatsappButton/whatsappButton.component';
 import { ReadyToBuyComponent } from '../../components/readyToBuy/readyToBuy.component';
+import { CarouselComponent } from '../../components/carousel/carousel.component';
 
 @Component({
   selector: 'app-home-page',
@@ -12,6 +13,7 @@ import { ReadyToBuyComponent } from '../../components/readyToBuy/readyToBuy.comp
     OptioncardsComponent,
     WhatsappButtonComponent,
     ReadyToBuyComponent,
+    CarouselComponent
   ],
   templateUrl: './homePage.component.html',
   styleUrl: './homePage.component.css',

@@ -6,7 +6,7 @@ from rest_framework import serializers
 from core.models import Comments
 
 
-class CommentsListSerializer(serializers.ModelSerializer):
+class CommentsSerializer(serializers.ModelSerializer):
     '''Serializer for list of comments'''
 
     class Meta:
