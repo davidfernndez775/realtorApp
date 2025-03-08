@@ -223,7 +223,7 @@ class Comments(models.Model):
     author = models.CharField(max_length=50)
     content = models.TextField(max_length=400)
     # flag to define if the comment is going to be show or not
-    in_use = models.BooleanField()
+    in_use = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Comment"
