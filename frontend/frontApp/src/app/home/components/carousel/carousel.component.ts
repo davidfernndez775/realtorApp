@@ -1,24 +1,38 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
   NgbCarousel,
   NgbCarouselModule,
   NgbSlideEvent,
   NgbSlideEventSource,
 } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-carousel',
   standalone: true,
-  imports: [NgbCarouselModule, FormsModule],
+  imports: [CommonModule, NgbCarouselModule],
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarouselComponent {
-  images = [62, 83, 466, 965, 982, 1043, 738].map(
-    (n) => `https://picsum.photos/id/${n}/900/500`
-  );
+  slides = [
+    {
+      title: 'Bienvenido a nuestra página',
+      description: 'Descubre lo mejor en tecnología e innovación.',
+      background: 'linear-gradient(to right, #ff7e5f, #feb47b)',
+    },
+    {
+      title: 'Ofertas Especiales',
+      description: 'Aprovecha los descuentos exclusivos por tiempo limitado.',
+      background: 'linear-gradient(to right, #4facfe, #00f2fe)',
+    },
+    {
+      title: 'Nuevos Productos',
+      description: 'Explora nuestra última colección de productos.',
+      background: 'linear-gradient(to right, #1d976c, #93f9b9)',
+    },
+  ];
 
   paused = false;
   unpauseOnArrow = false;

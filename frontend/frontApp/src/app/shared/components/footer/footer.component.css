@@ -47,6 +47,11 @@ footer {
   margin-left: auto;
 }
 
+#small-logo {
+  width: 30px;
+  height: 30px;
+}
+
 *,
 *::before,
 *::after {

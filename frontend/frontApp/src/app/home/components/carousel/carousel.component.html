@@ -1,29 +1,19 @@
 <div class="container-fluid">
   <ngb-carousel
     #carousel
-    [interval]="1000"
+    [interval]="2000"
     [pauseOnHover]="pauseOnHover"
     [pauseOnFocus]="pauseOnFocus"
     (slide)="onSlide($event)"
   >
-    @for (img of images; track img; let i = $index) {
+    @for (slide of slides; track slide; let i = $index) {
     <ng-template ngbSlide>
-      <div class="carousel-caption">
-        <h3>My slide {{ i + 1 }} title</h3>
-      </div>
-      <a
-        href="https://www.google.fr/?q=Number+{{ i + 1 }}"
-        target="_blank"
-        rel="nofollow noopener noreferrer"
-      >
-        <div class="picsum-img-wrapper">
-          <img
-            class="img-fluid w-100"
-            [src]="img"
-            alt="My image {{ i + 1 }} description"
-          />
+      <div class="gradient-slide" [ngStyle]="{ background: slide.background }">
+        <div class="overlay-text">
+          <h3>{{ slide.title }}</h3>
+          <p>{{ slide.description }}</p>
         </div>
-      </a>
+      </div>
     </ng-template>
     }
   </ngb-carousel>
