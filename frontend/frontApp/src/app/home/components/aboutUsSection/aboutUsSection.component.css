@@ -1,0 +1,158 @@
+.cta {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: rgba(230, 167, 86, 0.9);
+}
+
+.page-section {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+@media (min-width: 992px) {
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-md,
+  .container-sm,
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 576px) {
+  .container-sm,
+  .container {
+    max-width: 540px;
+  }
+}
+
+.container,
+.container-fluid,
+.container-xxl,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.row {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(-1 * var(--bs-gutter-y));
+  margin-right: calc(-0.5 * var(--bs-gutter-x));
+  margin-left: calc(-0.5 * var(--bs-gutter-x));
+}
+
+.mx-auto {
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.row > * {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-top: var(--bs-gutter-y);
+}
+.cta .cta-inner:before {
+  border-radius: 0.5rem;
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  bottom: -0.5rem;
+  left: -0.5rem;
+  right: -0.5rem;
+  border: 0.25rem solid rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+}
+
+.cta .cta-inner {
+  position: relative;
+  padding: 3rem;
+  margin: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.rounded {
+  border-radius: var(--bs-border-radius) !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.section-heading {
+  text-transform: uppercase;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  font-family: "Raleway";
+}
+
+h2,
+.h2 {
+  font-size: calc(1.325rem + 0.9vw);
+}
+
+h6,
+.h6,
+h5,
+.h5,
+h4,
+.h4,
+h3,
+.h3,
+h2,
+.h2,
+h1,
+.h1 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--bs-heading-color);
+}
+
+.section-heading .section-heading-upper {
+  display: block;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.section-heading .section-heading-lower {
+  display: block;
+  font-size: 3rem;
+  font-weight: 100;
+}
