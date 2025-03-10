@@ -1,13 +1,14 @@
 .cta {
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: rgba(230, 167, 86, 0.9);
+  background-color: rgba(230, 167, 86, 0);
 }
 
 .page-section {
   margin-top: 5rem;
   margin-bottom: 5rem;
 }
+
 @media (min-width: 992px) {
   .container-lg,
   .container-md,
@@ -155,4 +156,9 @@ h1,
   display: block;
   font-size: 3rem;
   font-weight: 100;
+}
+
+img {
+  width: 100px;
+  height: 100px;
 }
