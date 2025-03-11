@@ -1,20 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ShowcardsComponent } from '../../components/showcards/showcards.component';
-import { OptioncardsComponent } from '../../components/optioncards/optioncards.component';
 import { WhatsappButtonComponent } from '../../../shared/components/whatsappButton/whatsappButton.component';
-import { ReadyToBuyComponent } from '../../components/readyToBuy/readyToBuy.component';
-import { CommentsComponent } from '../../components/comments/comments.component';
-import { AboutUsSectionComponent } from '../../components/aboutUsSection/aboutUsSection.component';
+import { AboutUsSectionComponent } from '../../sections/aboutUsSection/aboutUsSection.component';
+import { CommentSectionComponent } from '../../sections/commentSection/commentSection.component';
+import { BusinessSectionComponent } from '../../sections/businessSection/businessSection.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
   imports: [
-    ShowcardsComponent,
-    OptioncardsComponent,
+    BusinessSectionComponent,
     WhatsappButtonComponent,
-    ReadyToBuyComponent,
-    CommentsComponent,
+    CommentSectionComponent,
     AboutUsSectionComponent,
   ],
   templateUrl: './homePage.component.html',
