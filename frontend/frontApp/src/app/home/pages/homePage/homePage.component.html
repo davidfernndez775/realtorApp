@@ -1,4 +1,11 @@
 <app-business-section></app-business-section>
+@defer (on viewport) {
 <app-about-us-section></app-about-us-section>
+}@placeholder(){
+<p>Loading</p>
+} @defer (on viewport){
 <app-comment-section></app-comment-section>
+}@placeholder(){
+<p>Loading</p>
+}
 <app-whatsapp-button></app-whatsapp-button>

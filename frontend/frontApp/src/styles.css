@@ -4,6 +4,9 @@ html,
 body {
   height: 100%;
   overflow-x: hidden;
+  margin-top: 0px;
+  padding-top: 0px;
+  font-family: Raleway, sans-serif;
 }
 body {
   background: url("./assets/img/background\ copia2.jpg") top;
