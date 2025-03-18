@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 
@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
   animations: [
     trigger('intro', [
       transition(':enter', [
-        // Se ejecuta cuando el elemento aparece en el DOM
         style({ transform: 'scale(0.5)', opacity: 0 }), // Estado inicial
         animate('500ms ease-out', style({ transform: 'scale(1)', opacity: 1 })), // Estado final
       ]),
@@ -21,9 +20,10 @@ import { CommonModule } from '@angular/common';
 export class ShowcardsComponent {
   isVisible = false; // Inicialmente oculto
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     setTimeout(() => {
-      this.isVisible = true; // Muestra el contenido después de 10ms
+      this.isVisible = true;
+      this.cdr.markForCheck(); // 🔥 Forzar detección de cambios
     }, 10);
   }
 }
