@@ -1,4 +1,4 @@
-<div *ngIf="isVisible" @intro>
+<div [@intro] [class.hidden]="!animationDone" (@intro.done)="onAnimationDone()">
   <app-showcards></app-showcards>
   <app-optioncards></app-optioncards>
   <app-ready-to-buy></app-ready-to-buy>
