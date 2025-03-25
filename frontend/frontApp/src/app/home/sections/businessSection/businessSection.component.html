@@ -1,3 +1,5 @@
-<app-showcards></app-showcards>
-<app-optioncards></app-optioncards>
-<app-ready-to-buy></app-ready-to-buy>
+<div *ngIf="isVisible" @intro>
+  <app-showcards></app-showcards>
+  <app-optioncards></app-optioncards>
+  <app-ready-to-buy></app-ready-to-buy>
+</div>
