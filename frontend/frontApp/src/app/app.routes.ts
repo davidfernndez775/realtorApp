@@ -21,6 +21,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'properties',
+        loadComponent: () =>
+          import(
+            './properties/layout/layoutProperties/layoutProperties.component'
+          ).then((c) => c.LayoutPropertiesComponent),
+      },
+      {
         path: '',
         loadComponent: () =>
           import('./auth/layoutAuth/layoutAuth.component').then(

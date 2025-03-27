@@ -1,0 +1,32 @@
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title">Filters</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="offcanvas.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <form action="post">
+      <p>One fine body&hellip;</p>
+      <div class="text-end">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="offcanvas.close('Close click')"
+        >
+          Apply
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<button
+  class="btn btn-lg btn-outline-primary mb-2 me-2"
+  (click)="openEnd(content)"
+>
+  Filters
+</button>
