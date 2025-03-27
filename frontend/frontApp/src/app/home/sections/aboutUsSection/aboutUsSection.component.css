@@ -163,12 +163,18 @@ h1,
   height: 100px;
 }
 
+#profile-picture {
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+}
+
 .rounded-circle {
   border-radius: 50% !important;
 }
 
 .w-100 {
-  width: 50% !important;
+  width: 30% !important;
 }
 
 .d-block {
