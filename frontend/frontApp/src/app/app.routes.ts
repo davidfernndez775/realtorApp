@@ -21,25 +21,41 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'login',
+        path: '',
         loadComponent: () =>
-          import('./auth/pages/loginPage/loginPage.component').then(
-            (c) => c.LoginPageComponent
+          import('./auth/layoutAuth/layoutAuth.component').then(
+            (c) => c.LayoutAuthComponent
           ),
-      },
-      {
-        path: 'register',
-        loadComponent: () =>
-          import('./auth/pages/registerPage/registerPage.component').then(
-            (c) => c.RegisterPageComponent
-          ),
-      },
-      {
-        path: 'reset-password',
-        loadComponent: () =>
-          import(
-            './auth/pages/resetPasswordPage/resetPasswordPage.component'
-          ).then((c) => c.ResetPasswordPageComponent),
+        children: [
+          {
+            path: 'login',
+            loadComponent: () =>
+              import('./auth/pages/loginPage/loginPage.component').then(
+                (c) => c.LoginPageComponent
+              ),
+          },
+          {
+            path: 'register',
+            loadComponent: () =>
+              import('./auth/pages/registerPage/registerPage.component').then(
+                (c) => c.RegisterPageComponent
+              ),
+          },
+          {
+            path: 'reset-password',
+            loadComponent: () =>
+              import(
+                './auth/pages/resetPasswordPage/resetPasswordPage.component'
+              ).then((c) => c.ResetPasswordPageComponent),
+          },
+          {
+            path: 'confirm-password',
+            loadComponent: () =>
+              import(
+                './auth/pages/confirmPassword/confirmPassword.component'
+              ).then((c) => c.ConfirmPasswordComponent),
+          },
+        ],
       },
     ],
   },
