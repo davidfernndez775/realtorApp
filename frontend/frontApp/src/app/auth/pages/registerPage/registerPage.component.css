@@ -2,10 +2,6 @@
   display: block;
 }
 
-:host {
-  display: block;
-}
-
 @media (min-width: 1200px) {
   .py-xl-5 {
     padding-top: 3rem !important;
