@@ -22,3 +22,8 @@
 .row {
   padding: 2rem;
 }
+
+.col-md-6 {
+  padding: 1rem;
+  /* height: 800px; Ajusta según sea necesario */
+}

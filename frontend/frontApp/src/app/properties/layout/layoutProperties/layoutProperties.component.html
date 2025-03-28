@@ -1,23 +1,24 @@
 <div class="container">
-  <div class="row">
-    <app-search-form></app-search-form>
-    <ul ngbNav #nav="ngbNav" class="nav-tabs">
-      <li [ngbNavItem]="1">
-        <button ngbNavLink>For sale</button>
-        <ng-template ngbNavContent>
+  <app-search-form></app-search-form>
+  <ul ngbNav #nav="ngbNav" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <button ngbNavLink>For sale</button>
+      <ng-template ngbNavContent>
+        <div class="row">
           <div class="col-md-6"><app-map></app-map></div>
           <div class="col-md-6"><app-list></app-list></div>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="2">
-        <button ngbNavLink>For rent</button>
-        <ng-template ngbNavContent>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <button ngbNavLink>For rent</button>
+      <ng-template ngbNavContent>
+        <div class="row">
           <div class="col-md-6"><app-map></app-map></div>
           <div class="col-md-6"><app-list></app-list></div>
-        </ng-template>
-      </li>
-    </ul>
-
-    <div [ngbNavOutlet]="nav" class="mt-2"></div>
-  </div>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
 </div>

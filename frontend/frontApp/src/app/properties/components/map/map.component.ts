@@ -6,6 +6,7 @@ import {
   ViewChild,
   Inject,
   PLATFORM_ID,
+  OnDestroy,
 } from '@angular/core';
 
 import { isPlatformBrowser } from '@angular/common';
@@ -15,23 +16,20 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit, OnDestroy {
   map: Map | undefined;
-  @ViewChild('map')
-  private mapContainer?: ElementRef<HTMLElement>;
+  @ViewChild('map', { static: false }) mapContainer?: ElementRef<HTMLElement>;
 
   constructor(@Inject(PLATFORM_ID) private platformId: any) {}
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const initialState = { lng: 139.753, lat: 35.6844, zoom: 14 };
+      const initialState = { lng: -80.34599, lat: 25.7578, zoom: 10 };
 
-      // chequeamos que el elemento map exista
       if (!this.mapContainer) throw 'HTML Element not found';
 
       this.map = new Map({
@@ -40,6 +38,11 @@ export class MapComponent implements AfterViewInit {
         center: [initialState.lng, initialState.lat],
         zoom: initialState.zoom,
       });
+
+      // 🔹 Forzar redibujado después de un breve delay
+      setTimeout(() => {
+        this.map?.resize();
+      }, 500);
     }
   }
 
