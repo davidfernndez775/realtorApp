@@ -7,7 +7,7 @@ from core.models import RealEstateProperty
 
 
 class RealEstatePropertyFilter(django_filters.FilterSet):
-    #*CHOICE FILTERS
+    # *CHOICE FILTERS
     property_type = django_filters.ChoiceFilter(
         field_name='property_type',
         choices=RealEstateProperty.PropertyType.choices
@@ -21,11 +21,12 @@ class RealEstatePropertyFilter(django_filters.FilterSet):
         choices=RealEstateProperty.PropertyStatus.choices
     )
 
-    #* CHECK FILTERS
+    # * CHECK FILTERS
     new = django_filters.BooleanFilter()
     price_decrease = django_filters.BooleanFilter()
+    water_front = django_filters.BooleanFilter()
 
-    #* RANGE FILTERS
+    # * RANGE FILTERS
     # Price range values
     price_min = django_filters.NumberFilter(
         field_name='price', lookup_expr='gte')
@@ -68,5 +69,5 @@ class RealEstatePropertyFilter(django_filters.FilterSet):
             'property_type', 'county', 'for_rent_or_sale', 'new', 'price_decrease',
             'price_min', 'price_max', 'beds_min', 'beds_max',
             'full_baths_min', 'full_baths_max', 'half_baths_min', 'half_baths_max',
-            'built_min', 'built_max'
+            'built_min', 'built_max', 'water_front'
         ]
