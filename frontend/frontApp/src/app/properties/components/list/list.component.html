@@ -17,6 +17,12 @@
               <p class="card-text">
                 <small class="text-muted">Last updated 3 mins ago</small>
               </p>
+              <button
+                class="btn btn-outline-primary mb-2 me-2"
+                (click)="openXl(content)"
+              >
+                See details
+              </button>
             </div>
           </div>
         </div>
@@ -39,6 +45,12 @@
               <p class="card-text">
                 <small class="text-muted">Last updated 3 mins ago</small>
               </p>
+              <button
+                class="btn btn-outline-primary mb-2 me-2"
+                (click)="openXl(content)"
+              >
+                See details
+              </button>
             </div>
           </div>
         </div>
@@ -61,6 +73,12 @@
               <p class="card-text">
                 <small class="text-muted">Last updated 3 mins ago</small>
               </p>
+              <button
+                class="btn btn-outline-primary mb-2 me-2"
+                (click)="openXl(content)"
+              >
+                See details
+              </button>
             </div>
           </div>
         </div>
@@ -83,72 +101,12 @@
               <p class="card-text">
                 <small class="text-muted">Last updated 3 mins ago</small>
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="card mb-3" style="max-width: 540px">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="..." />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
-              </p>
-              <p class="card-text">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="card mb-3" style="max-width: 540px">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="..." />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
-              </p>
-              <p class="card-text">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="card mb-3" style="max-width: 540px">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="..." />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
-              </p>
-              <p class="card-text">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </p>
+              <button
+                class="btn btn-outline-primary mb-2 me-2"
+                (click)="openXl(content)"
+              >
+                See details
+              </button>
             </div>
           </div>
         </div>
@@ -156,3 +114,26 @@
     </li>
   </ul>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p>One fine body&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="modal.close('Close click')"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
