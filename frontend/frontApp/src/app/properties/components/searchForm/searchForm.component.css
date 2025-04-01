@@ -1,3 +1,29 @@
 :host {
   display: block;
 }
+
+.offcanvas-body {
+  max-height: calc(100vh - 56px); /* Ajusta según el tamaño del header */
+  overflow-y: auto;
+}
+
+.d-inline-block {
+  padding: 1rem;
+}
+
+.min-max-container,
+.boolean-container {
+  margin: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: rgb(255, 241, 224);
+  border-radius: 0.5rem;
+}
+
+input {
+  width: 6rem;
+}
+
+p {
+  margin-left: 1rem;
+}

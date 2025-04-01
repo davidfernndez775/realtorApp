@@ -8,9 +8,128 @@
       (click)="offcanvas.dismiss('Cross click')"
     ></button>
   </div>
-  <div class="offcanvas-body">
+  <hr />
+  <p>Fill only what you need</p>
+
+  <div class="offcanvas-body overflow-auto">
     <form action="post">
-      <p>One fine body&hellip;</p>
+      <div ngbDropdown class="d-inline-block">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+          Select a county
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem>Action - 1</button>
+          <button ngbDropdownItem>Another Action</button>
+          <button ngbDropdownItem>Something else is here</button>
+        </div>
+      </div>
+      <div ngbDropdown class="d-inline-block">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+          Select a property type
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem>Action - 1</button>
+          <button ngbDropdownItem>Another Action</button>
+          <button ngbDropdownItem>Something else is here</button>
+        </div>
+      </div>
+      <hr />
+      <div class="min-max-container">
+        <h6>Price</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p>min</p>
+            <input type="number" name="min-price" id="" />
+          </div>
+          <div class="col-md-6">
+            <p>max</p>
+            <input type="number" name="max-price" id="" />
+          </div>
+        </div>
+      </div>
+      <div class="min-max-container">
+        <h6>Square ft</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p>min</p>
+            <input type="number" name="min-square-ft" id="" />
+          </div>
+          <div class="col-md-6">
+            <p>max</p>
+            <input type="number" name="max-square-ft" id="" />
+          </div>
+        </div>
+      </div>
+      <div class="min-max-container">
+        <h6>Beds</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p>min</p>
+            <input type="number" name="min-bed" id="" />
+          </div>
+          <div class="col-md-6">
+            <p>max</p>
+            <input type="number" name="max-bed" id="" />
+          </div>
+        </div>
+      </div>
+      <div class="min-max-container">
+        <h6>Full baths</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p>min</p>
+            <input type="number" name="min-full-baths" id="" />
+          </div>
+          <div class="col-md-6">
+            <p>max</p>
+            <input type="number" name="max-full-baths" id="" />
+          </div>
+        </div>
+      </div>
+      <div class="min-max-container">
+        <h6>Half Baths</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p>min</p>
+            <input type="number" name="min-half-baths" id="" />
+          </div>
+          <div class="col-md-6">
+            <p>max</p>
+            <input type="number" name="max-half-baths" id="" />
+          </div>
+        </div>
+      </div>
+      <div class="min-max-container">
+        <h6>Built date</h6>
+        <div class="row">
+          <div class="col-md-6">
+            <p>from</p>
+            <input type="number" name="min-half-baths" id="" />
+          </div>
+          <div class="col-md-6">
+            <p>to</p>
+            <input type="number" name="max-half-baths" id="" />
+          </div>
+        </div>
+      </div>
+      <div class="boolean-container">
+        <h6>New</h6>
+        <input type="checkbox" name="new-check" id="" />
+      </div>
+      <div class="boolean-container">
+        <h6>Price decreased</h6>
+        <input type="checkbox" name="price-check" id="" />
+      </div>
       <div class="text-end">
         <button
           type="button"

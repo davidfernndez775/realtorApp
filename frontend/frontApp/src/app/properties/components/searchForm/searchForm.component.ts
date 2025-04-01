@@ -6,11 +6,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-search-form',
   standalone: true,
-  imports: [],
+  imports: [NgbDropdownModule],
   templateUrl: './searchForm.component.html',
   styleUrl: './searchForm.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
