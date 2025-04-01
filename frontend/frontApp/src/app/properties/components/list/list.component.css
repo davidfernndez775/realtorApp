@@ -11,13 +11,10 @@ ul {
   list-style-type: none;
 }
 
-/* .dark-modal .modal-content {
-  background-color: #292b2c;
-  color: white;
+.modal-title {
+  margin-right: 2rem;
 }
-.dark-modal .close {
-  color: white;
+
+#price {
+  color: blue;
 }
-.light-blue-backdrop {
-  background-color: #5cb3fd;
-} */

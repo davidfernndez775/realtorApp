@@ -6,11 +6,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DetailsComponent } from '../details/details.component';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [],
+  imports: [DetailsComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
   // encapsulation: ViewEncapsulation.None,

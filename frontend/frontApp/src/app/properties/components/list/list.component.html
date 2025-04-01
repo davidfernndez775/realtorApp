@@ -116,7 +116,8 @@
 </div>
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
+    <h5 class="modal-title">Modal title</h5>
+    <h5 class="modal-title" id="price">Price</h5>
     <button
       type="button"
       class="btn-close"
@@ -125,7 +126,7 @@
     ></button>
   </div>
   <div class="modal-body">
-    <p>One fine body&hellip;</p>
+    <app-details></app-details>
   </div>
   <div class="modal-footer">
     <button
