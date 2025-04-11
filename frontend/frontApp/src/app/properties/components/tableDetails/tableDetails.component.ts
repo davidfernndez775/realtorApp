@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import {
-  NgbPaginationModule,
-  NgbTypeaheadModule,
-} from '@ng-bootstrap/ng-bootstrap';
 
 interface Country {
   name: string;
@@ -64,33 +59,40 @@ const COUNTRIES: Country[] = [
     name: 'China',
     area: 9596960,
   },
+  {
+    name: 'Mexico',
+    area: 1964375,
+  },
+  {
+    name: 'United States',
+    area: 9629091,
+  },
+  {
+    name: 'India',
+    area: 3287263,
+  },
+  {
+    name: 'Indonesia',
+    area: 1910931,
+  },
+  {
+    name: 'Tuvalu',
+    area: 26,
+  },
+  {
+    name: 'China',
+    area: 9596960,
+  },
 ];
 
 @Component({
   selector: 'app-table-details',
   standalone: true,
-  imports: [DecimalPipe, FormsModule, NgbTypeaheadModule, NgbPaginationModule],
+  imports: [DecimalPipe],
   templateUrl: './tableDetails.component.html',
   styleUrl: './tableDetails.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableDetailsComponent {
-  page = 1;
-  pageSize = 4;
-  collectionSize = COUNTRIES.length;
-  countries: Country[] = [];
-
-  constructor() {
-    this.refreshCountries();
-  }
-
-  refreshCountries() {
-    this.countries = COUNTRIES.map((country, i) => ({
-      id: i + 1,
-      ...country,
-    })).slice(
-      (this.page - 1) * this.pageSize,
-      (this.page - 1) * this.pageSize + this.pageSize
-    );
-  }
+  countries = COUNTRIES;
 }
