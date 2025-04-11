@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { TableDetailsComponent } from '../tableDetails/tableDetails.component';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [NgbCarouselModule],
+  imports: [NgbCarouselModule, TableDetailsComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
