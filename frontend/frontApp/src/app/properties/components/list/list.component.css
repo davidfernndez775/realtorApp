@@ -3,7 +3,7 @@
 }
 
 .container {
-  height: 800px;
+  height: auto;
   overflow-y: auto;
 }
 
