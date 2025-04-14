@@ -12,7 +12,7 @@
       <p>Phone</p>
       <h5>+1(786)67628935</h5>
       <hr />
-      <button type="button" class="btn btn-outline-secondary">
+      <button class="btn btn-lg btn-outline-primary" (click)="open(content)">
         Update profile
       </button>
     </div>
@@ -32,3 +32,45 @@
     </div>
   </div>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update your info</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <form action="" method="post">
+    <div class="modal-body">
+      <h6>Fill only the fields you want to change</h6>
+      <div class="container">
+        <p>Username</p>
+        <input type="text" placeholder="new username" />
+        <hr />
+        <p>Email</p>
+        <input type="email" placeholder="new email" />
+        <hr />
+        <p>Phone</p>
+        <input type="tel" placeholder="new phone" />
+        <hr />
+        <p>Password</p>
+        <input type="password" placeholder="new password" />
+        <hr />
+        <p>Confirm password</p>
+        <input type="password" placeholder="confirm new password" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="c('Save click')"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</ng-template>
