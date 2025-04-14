@@ -28,6 +28,13 @@ export const routes: Routes = [
           ).then((c) => c.LayoutPropertiesComponent),
       },
       {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./dashboard/pages/dashboard/dashboard.component').then(
+            (c) => c.DashboardComponent
+          ),
+      },
+      {
         path: '',
         loadComponent: () =>
           import('./auth/layoutAuth/layoutAuth.component').then(
