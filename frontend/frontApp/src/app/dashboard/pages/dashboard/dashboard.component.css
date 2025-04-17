@@ -2,6 +2,9 @@
   display: block;
 }
 
+.btn {
+  margin: 1rem;
+}
 .col-md-4 {
   background-color: #feec94c0;
   padding: 2rem;
