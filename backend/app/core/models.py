@@ -23,7 +23,7 @@ from authentication.validators import validate_us_phone_number
 from core.validators import validate_coordinates, validate_zip_code, validate_built
 
 
-def recipe_image_file_path(instance, filename):
+def property_image_file_path(instance, filename):
     '''Generate a file path for new property image'''
     # take the extension from the name of the file
     ext = os.path.splitext(filename)[1]
@@ -64,20 +64,20 @@ class UserManager(BaseUserManager):
         return user
 
 
-# This is before User, because User have a Many to Many relation with 
-# RealStateProperty 
+# This is before User, because User have a Many to Many relation with
+# RealStateProperty
 class RealEstateProperty(models.Model):
     '''Properties'''
     # create the option's systems
     class PropertyType(models.TextChoices):
-        SINGLE_FAMILY='Single Family'
-        CONDO='Condo/Co-Op/Villa/Townhouse'
-        MULTI_FAMILY='Multi-Family Income'
-        RESIDENTIAL_LAND='Residential Land/Boat Docks'
-        BUSSINESS='Land-Commercial/Business/Agricultural/Industrial'
-        RESIDENTIAL_RENTAL='Residential Rental'
-        COMMERCIAL='Commercial/Industrial'
-        BUSSINESS_BROKERAGE='Business Brokerage'
+        SINGLE_FAMILY = 'Single Family'
+        CONDO = 'Condo/Co-Op/Villa/Townhouse'
+        MULTI_FAMILY = 'Multi-Family Income'
+        RESIDENTIAL_LAND = 'Residential Land/Boat Docks'
+        BUSSINESS = 'Land-Commercial/Business/Agricultural/Industrial'
+        RESIDENTIAL_RENTAL = 'Residential Rental'
+        COMMERCIAL = 'Commercial/Industrial'
+        BUSSINESS_BROKERAGE = 'Business Brokerage'
 
     class PropertyStatus(models.TextChoices):
         FOR_SALE = 'for_sale', 'En venta'
@@ -149,7 +149,7 @@ class RealEstateProperty(models.Model):
             else:
                 self.price_decrease = False
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
         return self.title
 
@@ -188,14 +188,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+
 class PropertyImage(models.Model):
     '''Images for property dossier'''
     property = models.ForeignKey(
-        RealEstateProperty, 
-        on_delete=models.CASCADE, 
+        RealEstateProperty,
+        on_delete=models.CASCADE,
         related_name='images'
     )
-    image = models.ImageField(upload_to=recipe_image_file_path)
+    image = models.ImageField(upload_to=property_image_file_path)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -206,7 +207,7 @@ class FavoriteProperty(models.Model):
     '''Favorite realstate properties list'''
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(RealEstateProperty, on_delete=models.CASCADE)
-    added_at = models.DateTimeField(auto_now_add=True) 
+    added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('user', 'property')  # Avoid duplicates
@@ -215,7 +216,6 @@ class FavoriteProperty(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.property.title}"
-
 
 
 class Comments(models.Model):
@@ -229,36 +229,41 @@ class Comments(models.Model):
         verbose_name = "Comment"
         verbose_name_plural = "Comments"
         ordering = ["-id"]
-    
+
     def __str__(self):
         return self.content
 
 
-
-#*SIGNALS
+# *SIGNALS
 previous_prices = {}
+
 
 @receiver(pre_save, sender=RealEstateProperty)
 def store_previous_price(sender, instance, **kwargs):
     """ Save the previous price before update the model """
     if instance.pk:  # only if the property exists (not in new creations)
-        previous_price = RealEstateProperty.objects.filter(pk=instance.pk).values_list("price", flat=True).first()
+        previous_price = RealEstateProperty.objects.filter(
+            pk=instance.pk).values_list("price", flat=True).first()
         if previous_price is not None:
             previous_prices[instance.pk] = previous_price
+
 
 @receiver(post_save, sender=RealEstateProperty)
 def notify_price_decrease(sender, instance, **kwargs):
     '''Send an price decrease alert email to the users with the property in his favorites'''
     if instance.price_decrease and instance.pk in previous_prices:
-        previous_price = previous_prices.pop(instance.pk)  # retrieve the previous price and delete it from dictionary
-        
+        # retrieve the previous price and delete it from dictionary
+        previous_price = previous_prices.pop(instance.pk)
+
         if previous_price > instance.price:
-            price_drop_percentage = ((previous_price - instance.price) / previous_price) * 100
+            price_drop_percentage = (
+                (previous_price - instance.price) / previous_price) * 100
         else:
             price_drop_percentage = 0  # Avoid errors if the price don't decrease
 
         # Search for users with the property in his favorite lists
-        favorite_users = FavoriteProperty.objects.filter(property=instance).select_related('user')
+        favorite_users = FavoriteProperty.objects.filter(
+            property=instance).select_related('user')
 
         for fav in favorite_users:
             user_email = fav.user.email
