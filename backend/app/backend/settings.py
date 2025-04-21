@@ -237,6 +237,11 @@ SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
 }
 
+# *to skip the migrations of jet
+MIGRATION_MODULES = {
+    'jet': None,
+}
+
 
 # LOGGING = {
 #     'version': 1,
