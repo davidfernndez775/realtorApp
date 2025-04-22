@@ -1,19 +1,16 @@
-export interface RealStateProperty {
+export interface RealEstatePropertyList {
+  id: number;
   title: string;
+  lon: string;
+  lat: string;
   county: string;
-  propertyType: string;
-  address: string;
-  zipCode: number;
-  rentOrSale: boolean;
+  property_type: string;
+  for_rent_or_sale: string;
   price: number;
-  priceDecrease: number;
-  squareFt: number;
-  new: boolean;
+  square_ft: number;
   beds: number;
-  fullBaths: number;
-  halfBaths: number;
-  built: number;
-  waterFront: boolean;
-  description: string;
-  images: string;
+  new: boolean;
+  price_decrease: boolean;
+  water_front: boolean;
+  main_image: string;
 }

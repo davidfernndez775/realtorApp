@@ -9,14 +9,7 @@ from django.core.files.base import ContentFile
 from core.models import RealEstateProperty, PropertyImage
 
 
-class RealEstatePropertiesListSerializer(serializers.ModelSerializer):
-    '''Serializer for list of properties'''
 
-    class Meta:
-        model = RealEstateProperty
-        fields = ['id', 'title', 'county', 'property_type', 'for_rent_or_sale',
-                  'price', 'square_ft', 'beds', 'new', 'price_decrease', 'water_front']
-        read_only_fields = ['id']
 
 
 class PropertyImageSerializer(serializers.ModelSerializer):
@@ -84,6 +77,23 @@ class PropertyImageSerializer(serializers.ModelSerializer):
 
         return final_image
 
+
+class RealEstatePropertiesListSerializer(serializers.ModelSerializer):
+    '''Serializer for list of properties'''
+
+    main_image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = RealEstateProperty
+        fields = ['id', 'title', 'lon', 'lat','county', 'property_type', 'for_rent_or_sale',
+                  'price', 'square_ft', 'beds', 'new', 'price_decrease', 'water_front', 'main_image']
+        read_only_fields = ['id']
+
+    def get_main_image(self, obj):
+        image = obj.images.first()  # 'images' es el related_name en PropertyImage
+        if image and image.image:
+            return self.context['request'].build_absolute_uri(image.image.url)
+        return None
 
 class RealEstatePropertiesDetailtSerializer(serializers.ModelSerializer):
     '''Serializer for property detail including images'''
