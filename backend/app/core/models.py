@@ -118,14 +118,14 @@ class RealEstateProperty(models.Model):
         choices=PropertyStatus.choices,
         default=PropertyStatus.choices[0]
     )
-    price = models.IntegerField()
-    beds = models.IntegerField(blank=True)
-    full_baths = models.IntegerField(blank=True)
-    half_baths = models.IntegerField(blank=True)
-    square_ft = models.IntegerField(blank=True)
+    price = models.IntegerField(default=0)
+    beds = models.IntegerField(blank=True, default=0)
+    full_baths = models.IntegerField(blank=True, default=0)
+    half_baths = models.IntegerField(blank=True, default=0)
+    square_ft = models.IntegerField(blank=True, default=0)
     water_front = models.BooleanField(default=False)
-    built = models.IntegerField(blank=True, validators=[validate_built])
-    description = models.TextField(blank=True, max_length=400)
+    built = models.IntegerField(blank=True, validators=[validate_built], default=1950)
+    description = models.TextField(blank=True, max_length=400, default="")
     new = models.BooleanField(default=False)
     price_decrease = models.BooleanField(default=False)
     # fields only for admin
