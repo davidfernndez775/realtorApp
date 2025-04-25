@@ -3,11 +3,18 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchFormComponent } from '../../components/searchForm/searchForm.component';
 import { MapComponent } from '../../components/map/map.component';
 import { ListComponent } from '../../components/list/list.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-layout-properties',
   standalone: true,
-  imports: [NgbNavModule, SearchFormComponent, MapComponent, ListComponent],
+  imports: [
+    NgbNavModule,
+    SearchFormComponent,
+    MapComponent,
+    ListComponent,
+    HttpClientModule,
+  ],
   templateUrl: './layoutProperties.component.html',
   styleUrl: './layoutProperties.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
