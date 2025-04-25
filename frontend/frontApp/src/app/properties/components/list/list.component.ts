@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, DetailsComponent],
+  imports: [CommonModule, HttpClientModule, DetailsComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
   // encapsulation: ViewEncapsulation.None,
