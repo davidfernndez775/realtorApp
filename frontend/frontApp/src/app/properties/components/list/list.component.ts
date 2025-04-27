@@ -13,6 +13,15 @@ import { RealEstatePropertyList } from '../../interfaces/realEstateProperty';
 import { RealEstatePropertyService } from '../../services/realEstateProperty.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Observable, of } from 'rxjs';
+import { catchError, map, startWith } from 'rxjs/operators';
+
+// To handle the options to visualize the cards
+interface ListState {
+  loading: boolean;
+  error: string | null;
+  properties: RealEstatePropertyList[] | null;
+}
 
 @Component({
   selector: 'app-list',
@@ -26,7 +35,8 @@ import { CommonModule } from '@angular/common';
 export class ListComponent implements OnInit {
   private modalService = inject(NgbModal);
 
-  public properties: RealEstatePropertyList[] = [];
+  // public properties: RealEstatePropertyList[] = [];
+  public state$!: Observable<ListState>;
 
   openXl(content: TemplateRef<any>) {
     this.modalService.open(content, { size: 'xl' });
@@ -35,8 +45,24 @@ export class ListComponent implements OnInit {
   constructor(private realEstatePropertyService: RealEstatePropertyService) {}
 
   ngOnInit(): void {
-    this.realEstatePropertyService
-      .getPropertyList()
-      .subscribe((properties) => (this.properties = properties));
+    this.state$ = this.realEstatePropertyService.getPropertyList().pipe(
+      map((properties) => ({
+        loading: false,
+        error: null,
+        properties,
+      })),
+      startWith({
+        loading: true,
+        error: null,
+        properties: null,
+      }),
+      catchError((error) =>
+        of({
+          loading: false,
+          error: 'Failed to load properties.',
+          properties: null,
+        })
+      )
+    );
   }
 }

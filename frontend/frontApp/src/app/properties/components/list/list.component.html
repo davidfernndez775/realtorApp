@@ -1,27 +1,68 @@
-<div class="container">
-  <div *ngFor="let property of properties">
-    <div class="card mb-3" style="max-width: 540px">
+<div class="container" *ngIf="state$ | async as state">
+  <!-- Estado de carga
+  <div
+    *ngIf="state.loading"
+    class="d-flex justify-content-center align-items-center"
+    style="height: 300px"
+  >
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div> -->
+
+  <!-- Estado de carga (Skeleton) -->
+  <div *ngIf="state.loading" class="skeleton-container">
+    <div *ngFor="let n of [1, 2, 3, 4, 5, 6]" class="card mb-3 skeleton-card">
       <div class="row no-gutters">
         <div class="col-md-4">
-          <img src="..." class="card-img" alt="..." />
+          <div class="skeleton-image"></div>
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">{{ property.title }}</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </p>
-            <p class="card-text">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </p>
-            <button
-              class="btn btn-outline-primary mb-2 me-2"
-              (click)="openXl(content)"
-            >
-              See details
-            </button>
+            <h5 class="skeleton-text title"></h5>
+            <p class="skeleton-text line"></p>
+            <p class="skeleton-text line short"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado de error -->
+  <div *ngIf="state.error">
+    <p class="text-danger">{{ state.error }}</p>
+  </div>
+
+  <!-- Estado de datos -->
+  <div *ngIf="state.properties">
+    <div *ngFor="let property of state.properties">
+      <div class="card mb-3" style="max-width: 540px">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img
+              [src]="property.main_image || 'https://via.placeholder.com/150'"
+              class="card-img"
+              alt="..."
+            />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ property.title }}</h5>
+              <p class="card-text">
+                This is a wider card with supporting text below as a natural
+                lead-in to additional content. This content is a little bit
+                longer.
+              </p>
+              <p class="card-text">
+                <small class="text-muted">Last updated 3 mins ago</small>
+              </p>
+              <button
+                class="btn btn-outline-primary mb-2 me-2"
+                (click)="openXl(content)"
+              >
+                See details
+              </button>
+            </div>
           </div>
         </div>
       </div>
