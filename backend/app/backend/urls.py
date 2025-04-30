@@ -11,7 +11,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('jet/', include('jet.urls', 'jet')),
+    # path('jet/', include('jet.urls', 'jet')),
     path('admin-site/', admin.site.urls),
     # *documentation paths
     path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
