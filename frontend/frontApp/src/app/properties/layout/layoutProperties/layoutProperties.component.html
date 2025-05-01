@@ -7,10 +7,14 @@
         <ng-template ngbNavContent>
           <div class="row">
             <div class="col-md-6">
-              <app-map [properties]="state.properties"></app-map>
+              <app-map
+                [properties]="filterProperties(state.properties, 'for_sale')"
+              ></app-map>
             </div>
             <div class="col-md-6">
-              <app-list [properties]="state.properties"></app-list>
+              <app-list
+                [properties]="filterProperties(state.properties, 'for_sale')"
+              ></app-list>
             </div>
           </div>
         </ng-template>
@@ -20,10 +24,14 @@
         <ng-template ngbNavContent>
           <div class="row">
             <div class="col-md-6">
-              <app-map [properties]="state.properties"></app-map>
+              <app-map
+                [properties]="filterProperties(state.properties, 'for_rent')"
+              ></app-map>
             </div>
             <div class="col-md-6">
-              <app-list [properties]="state.properties"></app-list>
+              <app-list
+                [properties]="filterProperties(state.properties, 'for_rent')"
+              ></app-list>
             </div>
           </div>
         </ng-template>

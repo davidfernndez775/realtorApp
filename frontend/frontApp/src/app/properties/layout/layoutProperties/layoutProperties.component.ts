@@ -57,4 +57,13 @@ export class LayoutPropertiesComponent {
       )
     );
   }
+
+  // function to filter properties by tabs
+  filterProperties(
+    properties: RealEstateProperty[] | null,
+    type: 'for_sale' | 'for_rent'
+  ): RealEstateProperty[] {
+    if (!properties) return [];
+    return properties.filter((p) => p.for_rent_or_sale === type);
+  }
 }
