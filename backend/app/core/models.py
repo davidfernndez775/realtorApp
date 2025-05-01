@@ -125,7 +125,7 @@ class RealEstateProperty(models.Model):
     square_ft = models.IntegerField(blank=True, default=0)
     water_front = models.BooleanField(default=False)
     built = models.IntegerField(blank=True, validators=[validate_built], default=1950)
-    description = models.TextField(blank=True, max_length=400, default="")
+    description = models.TextField(blank=True, max_length=250, default="")
     new = models.BooleanField(default=False)
     price_decrease = models.BooleanField(default=False)
     # fields only for admin

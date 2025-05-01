@@ -4,11 +4,23 @@ import { SearchFormComponent } from '../../components/searchForm/searchForm.comp
 import { MapComponent } from '../../components/map/map.component';
 import { ListComponent } from '../../components/list/list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RealEstateProperty } from '../../interfaces/realEstateProperty';
+import { catchError, map, Observable, of, startWith } from 'rxjs';
+import { RealEstatePropertyService } from '../../services/realEstateProperty.service';
+import { CommonModule } from '@angular/common';
+
+// To handle the options to visualize the cards
+interface ListState {
+  loading: boolean;
+  error: string | null;
+  properties: RealEstateProperty[] | null;
+}
 
 @Component({
   selector: 'app-layout-properties',
   standalone: true,
   imports: [
+    CommonModule,
     NgbNavModule,
     SearchFormComponent,
     MapComponent,
@@ -19,4 +31,30 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './layoutProperties.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutPropertiesComponent {}
+export class LayoutPropertiesComponent {
+  public state$!: Observable<ListState>;
+
+  constructor(private realEstatePropertyService: RealEstatePropertyService) {}
+
+  ngOnInit(): void {
+    this.state$ = this.realEstatePropertyService.getPropertyList().pipe(
+      map((properties) => ({
+        loading: false,
+        error: null,
+        properties,
+      })),
+      startWith({
+        loading: true,
+        error: null,
+        properties: null,
+      }),
+      catchError(() =>
+        of({
+          loading: false,
+          error: 'Error loading properties.',
+          properties: null,
+        })
+      )
+    );
+  }
+}

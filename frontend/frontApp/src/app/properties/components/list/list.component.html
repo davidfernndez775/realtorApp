@@ -1,4 +1,4 @@
-<div class="container" *ngIf="state$ | async as state">
+<div class="container">
   <!-- Estado de carga
   <div
     *ngIf="state.loading"
@@ -11,7 +11,7 @@
   </div> -->
 
   <!-- Estado de carga (Skeleton) -->
-  <div *ngIf="state.loading" class="skeleton-container">
+  <div *ngIf="loading" class="skeleton-container">
     <div *ngFor="let n of [1, 2, 3, 4, 5, 6]" class="card mb-3 skeleton-card">
       <div class="row no-gutters">
         <div class="col-md-4">
@@ -29,46 +29,44 @@
   </div>
 
   <!-- Estado de error -->
-  <div *ngIf="state.error">
-    <p class="text-danger">{{ state.error }}</p>
+  <div *ngIf="error">
+    <p class="text-danger">{{ error }}</p>
   </div>
 
   <!-- Estado de datos -->
-  <div *ngIf="state.properties">
-    <div *ngFor="let property of state.properties">
-      <div class="card mb-3" style="max-width: 540px">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img
-              [src]="property.main_image || 'https://via.placeholder.com/150'"
-              class="card-img"
-              alt="..."
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{ property.title }}</h5>
-              <p class="card-text">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
-              </p>
-              <p class="card-text">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </p>
-              <button
-                class="btn btn-outline-primary mb-2 me-2"
-                (click)="openXl(content)"
-              >
-                See details
-              </button>
-            </div>
+
+  <div *ngFor="let property of properties">
+    <div class="card mb-3" style="max-width: 540px">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img
+            [src]="property.main_image || 'https://via.placeholder.com/150'"
+            class="card-img"
+            alt="..."
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ property.title }}</h5>
+            <p class="card-text">
+              {{ property.description }}
+            </p>
+            <p class="card-text">
+              <small class="text-muted">Last updated 3 mins ago</small>
+            </p>
+            <button
+              class="btn btn-outline-primary mb-2 me-2"
+              (click)="openXl(content, property)"
+            >
+              See details
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <ng-template #content let-modal>
   <div class="modal-header">
     <h5 class="modal-title">Modal title</h5>
@@ -82,7 +80,7 @@
   </div>
   <div class="modal-body">
     <div class="container">
-      <app-details></app-details>
+      <app-details [property]="selectedProperty"></app-details>
     </div>
   </div>
   <div class="modal-footer">

@@ -1,24 +1,42 @@
-<div class="container">
-  <app-search-form></app-search-form>
-  <ul ngbNav #nav="ngbNav" class="nav-tabs">
-    <li [ngbNavItem]="1">
-      <button ngbNavLink>For sale</button>
-      <ng-template ngbNavContent>
-        <div class="row">
-          <div class="col-md-6"><app-map></app-map></div>
-          <div class="col-md-6"><app-list></app-list></div>
-        </div>
-      </ng-template>
-    </li>
-    <li [ngbNavItem]="2">
-      <button ngbNavLink>For rent</button>
-      <ng-template ngbNavContent>
-        <div class="row">
-          <div class="col-md-6"><app-map></app-map></div>
-          <div class="col-md-6"><app-list></app-list></div>
-        </div>
-      </ng-template>
-    </li>
-  </ul>
-  <div [ngbNavOutlet]="nav" class="mt-2"></div>
-</div>
+<ng-container *ngIf="state$ | async as state">
+  <div class="container">
+    <app-search-form [properties]="state.properties"></app-search-form>
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+      <li [ngbNavItem]="1">
+        <button ngbNavLink>For sale</button>
+        <ng-template ngbNavContent>
+          <div class="row">
+            <div class="col-md-6">
+              <app-map [properties]="state.properties"></app-map>
+            </div>
+            <div class="col-md-6">
+              <app-list [properties]="state.properties"></app-list>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2">
+        <button ngbNavLink>For rent</button>
+        <ng-template ngbNavContent>
+          <div class="row">
+            <div class="col-md-6">
+              <app-map [properties]="state.properties"></app-map>
+            </div>
+            <div class="col-md-6">
+              <app-list [properties]="state.properties"></app-list>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+
+  <ng-container *ngIf="state.loading">
+    <p>Loading...</p>
+  </ng-container>
+
+  <ng-container *ngIf="state.error">
+    <p>{{ state.error }}</p>
+  </ng-container>
+</ng-container>

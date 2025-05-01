@@ -78,15 +78,15 @@ class PropertyImageSerializer(serializers.ModelSerializer):
         return final_image
 
 
-class RealEstatePropertiesListSerializer(serializers.ModelSerializer):
-    '''Serializer for list of properties'''
+class RealEstatePropertiesSerializer(serializers.ModelSerializer):
+    '''Serializer for properties'''
 
     main_image = serializers.SerializerMethodField()
 
     class Meta:
         model = RealEstateProperty
-        fields = ['id', 'title', 'lon', 'lat','county', 'property_type', 'for_rent_or_sale',
-                  'price', 'square_ft', 'beds', 'new', 'price_decrease', 'water_front', 'main_image']
+        fields = ['id', 'title', 'lon', 'lat','county', 'address', 'property_type', 'zip_code', 'for_rent_or_sale',
+                  'price', 'square_ft', 'beds', 'full_baths', 'half_baths', 'built', 'description', 'new', 'price_decrease', 'water_front', 'main_image']
         read_only_fields = ['id']
 
     def get_main_image(self, obj):
@@ -95,12 +95,12 @@ class RealEstatePropertiesListSerializer(serializers.ModelSerializer):
             return self.context['request'].build_absolute_uri(image.image.url)
         return None
 
-class RealEstatePropertiesDetailtSerializer(serializers.ModelSerializer):
-    '''Serializer for property detail including images'''
-    images = PropertyImageSerializer(many=True, read_only=True)
+# class RealEstatePropertiesDetailtSerializer(serializers.ModelSerializer):
+#     '''Serializer for property detail including images'''
+#     images = PropertyImageSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = RealEstateProperty
-        fields = ['id', 'title', 'county', 'address', 'zip_code', 'property_type', 'for_rent_or_sale', 'price', 'square_ft',
-                  'beds', 'new', 'price_decrease', 'full_baths', 'half_baths', 'built', 'water_front', 'description', 'images']
-        read_only_fields = ['id']
+#     class Meta:
+#         model = RealEstateProperty
+#         fields = ['id', 'title', 'county', 'address', 'zip_code', 'property_type', 'for_rent_or_sale', 'price', 'square_ft',
+#                   'beds', 'new', 'price_decrease', 'full_baths', 'half_baths', 'built', 'water_front', 'description', 'images']
+#         read_only_fields = ['id']

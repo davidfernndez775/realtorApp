@@ -7,11 +7,13 @@ import {
   Inject,
   PLATFORM_ID,
   OnDestroy,
+  Input,
 } from '@angular/core';
 
 import { isPlatformBrowser } from '@angular/common';
 import { Map } from 'maplibre-gl';
 import { environment } from '../../../../environments/environment';
+import { RealEstateProperty } from '../../interfaces/realEstateProperty';
 
 @Component({
   selector: 'app-map',
@@ -24,6 +26,7 @@ import { environment } from '../../../../environments/environment';
 export class MapComponent implements AfterViewInit, OnDestroy {
   map: Map | undefined;
   @ViewChild('map', { static: false }) mapContainer?: ElementRef<HTMLElement>;
+  @Input() properties: RealEstateProperty[] | null = null;
 
   constructor(@Inject(PLATFORM_ID) private platformId: any) {}
 
