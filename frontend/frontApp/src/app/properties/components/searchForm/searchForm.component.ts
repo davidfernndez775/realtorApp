@@ -17,11 +17,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { RealEstateProperty } from '../../interfaces/realEstateProperty';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-search-form',
   standalone: true,
-  imports: [NgbDropdownModule, ReactiveFormsModule],
+  imports: [CommonModule, NgbDropdownModule, ReactiveFormsModule],
   templateUrl: './searchForm.component.html',
   styleUrl: './searchForm.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
