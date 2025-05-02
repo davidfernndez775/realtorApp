@@ -66,4 +66,22 @@ export class LayoutPropertiesComponent {
     if (!properties) return [];
     return properties.filter((p) => p.for_rent_or_sale === type);
   }
+
+  onFiltersApplied(filters: any): void {
+    this.state$ = this.realEstatePropertyService.getPropertyList(filters).pipe(
+      map((properties) => ({
+        loading: false,
+        error: null,
+        properties,
+      })),
+      startWith({ loading: true, error: null, properties: null }),
+      catchError(() =>
+        of({
+          loading: false,
+          error: 'Error loading properties.',
+          properties: null,
+        })
+      )
+    );
+  }
 }

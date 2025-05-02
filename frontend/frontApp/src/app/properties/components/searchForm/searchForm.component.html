@@ -12,35 +12,44 @@
   <p>Fill only what you need</p>
 
   <div class="offcanvas-body overflow-auto">
-    <form action="post">
-      <div ngbDropdown class="d-inline-block">
+    <form [formGroup]="filterForm">
+      <div ngbDropdown class="d-inline-block me-2">
         <button
-          type="button"
           class="btn btn-outline-primary"
-          id="dropdownBasic1"
+          id="dropdownCounty"
           ngbDropdownToggle
         >
-          Select a county
+          {{ filterForm.get("county")?.value || "Select a county" }}
         </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem>Action - 1</button>
-          <button ngbDropdownItem>Another Action</button>
-          <button ngbDropdownItem>Something else is here</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownCounty">
+          <button
+            *ngFor="let c of counties"
+            ngbDropdownItem
+            (click)="filterForm.get('county')?.setValue(c)"
+          >
+            {{ c }}
+          </button>
         </div>
       </div>
+
       <div ngbDropdown class="d-inline-block">
         <button
-          type="button"
           class="btn btn-outline-primary"
-          id="dropdownBasic1"
+          id="dropdownType"
           ngbDropdownToggle
         >
-          Select a property type
+          {{
+            filterForm.get("property_type")?.value || "Select a property type"
+          }}
         </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem>Action - 1</button>
-          <button ngbDropdownItem>Another Action</button>
-          <button ngbDropdownItem>Something else is here</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownType">
+          <button
+            *ngFor="let t of propertyTypes"
+            ngbDropdownItem
+            (click)="filterForm.get('property_type')?.setValue(t)"
+          >
+            {{ t }}
+          </button>
         </div>
       </div>
       <hr />
@@ -139,7 +148,7 @@
         <button
           type="button"
           class="btn btn-outline-secondary"
-          (click)="offcanvas.close('Close click')"
+          (click)="applyFilters(); offcanvas.close('Close click')"
         >
           Apply
         </button>
