@@ -27,3 +27,14 @@ input {
 p {
   margin-left: 1rem;
 }
+
+.active-filters {
+  padding-left: 8px;
+}
+
+.badge {
+  font-size: 0.85rem;
+  padding: 0.5em 0.75em;
+  background-color: #007bff;
+  color: white;
+}

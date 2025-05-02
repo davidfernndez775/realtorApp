@@ -163,3 +163,18 @@
 >
   Filters
 </button>
+<div class="active-filters d-flex flex-wrap gap-2 mb-3">
+  <ng-container *ngFor="let key of filterKeys">
+    <ng-container *ngIf="filterForm.get(key)?.value">
+      <span class="badge bg-primary d-flex align-items-center">
+        {{ getLabel(key) }}: {{ getValue(key) }}
+        <button
+          type="button"
+          class="btn-close btn-close-white ms-2"
+          aria-label="Remove"
+          (click)="removeFilter(key)"
+        ></button>
+      </span>
+    </ng-container>
+  </ng-container>
+</div>

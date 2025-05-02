@@ -84,11 +84,53 @@ export class SearchFormComponent {
     });
   }
 
+  get filterKeys(): string[] {
+    return Object.keys(this.filterForm.controls);
+  }
+
   openEnd(content: TemplateRef<any>) {
     this.offcanvasService.open(content, { position: 'end' });
   }
 
   applyFilters(): void {
     this.filtersApplied.emit(this.filterForm.value);
+  }
+
+  getLabel(key: string): string {
+    const map: Record<string, string> = {
+      property_type: 'Type',
+      county: 'County',
+      for_rent_or_sale: 'Listing',
+      new: 'New',
+      price_decrease: 'Price ↓',
+      water_front: 'Waterfront',
+      price_min: 'Min Price',
+      price_max: 'Max Price',
+      square_ft_min: 'Min SqFt',
+      square_ft_max: 'Max SqFt',
+      beds_min: 'Min Beds',
+      beds_max: 'Max Beds',
+      full_baths_min: 'Min Full Baths',
+      full_baths_max: 'Max Full Baths',
+      half_baths_min: 'Min Half Baths',
+      half_baths_max: 'Max Half Baths',
+      built_min: 'Built From',
+      built_max: 'Built To',
+    };
+    return map[key] || key;
+  }
+
+  getValue(key: string): any {
+    const val = this.filterForm.get(key)?.value;
+    if (typeof val === 'boolean') return val ? 'Yes' : '';
+    return val;
+  }
+
+  removeFilter(key: string): void {
+    const control = this.filterForm.get(key);
+    if (control) {
+      control.reset(control.value instanceof Boolean ? false : '');
+      this.applyFilters(); // re-emite con el nuevo filtro
+    }
   }
 }
