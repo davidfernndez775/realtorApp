@@ -58,28 +58,53 @@
         <div class="row">
           <div class="col-md-6">
             <p>min</p>
-            <input type="number" name="min-price" id="" />
+            <input
+              type="number"
+              name="min-price"
+              formControlName="price_min"
+              id=""
+            />
           </div>
           <div class="col-md-6">
             <p>max</p>
-            <input type="number" name="max-price" id="" />
+            <input
+              type="number"
+              name="max-price"
+              formControlName="price_max"
+              id=""
+            />
           </div>
         </div>
       </div>
       <div class="boolean-container">
         <h6>Price decreased</h6>
-        <input type="checkbox" name="price-check" id="" />
+        <input
+          type="checkbox"
+          name="price-check"
+          formControlName="price_decrease"
+          id=""
+        />
       </div>
       <div class="min-max-container">
         <h6>Square ft</h6>
         <div class="row">
           <div class="col-md-6">
             <p>min</p>
-            <input type="number" name="min-square-ft" id="" />
+            <input
+              type="number"
+              name="min-square-ft"
+              formControlName="square_ft_min"
+              id=""
+            />
           </div>
           <div class="col-md-6">
             <p>max</p>
-            <input type="number" name="max-square-ft" id="" />
+            <input
+              type="number"
+              name="max-square-ft"
+              formControlName="square_ft_max"
+              id=""
+            />
           </div>
         </div>
       </div>
@@ -88,11 +113,21 @@
         <div class="row">
           <div class="col-md-6">
             <p>min</p>
-            <input type="number" name="min-bed" id="" />
+            <input
+              type="number"
+              name="min-bed"
+              formControlName="beds_min"
+              id=""
+            />
           </div>
           <div class="col-md-6">
             <p>max</p>
-            <input type="number" name="max-bed" id="" />
+            <input
+              type="number"
+              name="max-bed"
+              formControlName="beds_max"
+              id=""
+            />
           </div>
         </div>
       </div>
@@ -101,11 +136,21 @@
         <div class="row">
           <div class="col-md-6">
             <p>min</p>
-            <input type="number" name="min-full-baths" id="" />
+            <input
+              type="number"
+              name="min-full-baths"
+              formControlName="full_baths_min"
+              id=""
+            />
           </div>
           <div class="col-md-6">
             <p>max</p>
-            <input type="number" name="max-full-baths" id="" />
+            <input
+              type="number"
+              name="max-full-baths"
+              formControlName="full_baths_max"
+              id=""
+            />
           </div>
         </div>
       </div>
@@ -114,32 +159,57 @@
         <div class="row">
           <div class="col-md-6">
             <p>min</p>
-            <input type="number" name="min-half-baths" id="" />
+            <input
+              type="number"
+              name="min-half-baths"
+              formControlName="half_baths_min"
+              id=""
+            />
           </div>
           <div class="col-md-6">
             <p>max</p>
-            <input type="number" name="max-half-baths" id="" />
+            <input
+              type="number"
+              name="max-half-baths"
+              formControlName="half_baths_max"
+              id=""
+            />
           </div>
         </div>
       </div>
       <div class="boolean-container">
         <h6>Waterfront</h6>
-        <input type="checkbox" name="price-check" id="" />
+        <input
+          type="checkbox"
+          name="price-check"
+          formControlName="water_front"
+          id=""
+        />
       </div>
       <div class="boolean-container">
         <h6>New</h6>
-        <input type="checkbox" name="new-check" id="" />
+        <input type="checkbox" name="new-check" formControlName="new" id="" />
       </div>
       <div class="min-max-container">
         <h6>Built date</h6>
         <div class="row">
           <div class="col-md-6">
             <p>from</p>
-            <input type="number" name="min-half-baths" id="" />
+            <input
+              type="number"
+              name="min-half-baths"
+              formControlName="built_min"
+              id=""
+            />
           </div>
           <div class="col-md-6">
             <p>to</p>
-            <input type="number" name="max-half-baths" id="" />
+            <input
+              type="number"
+              name="max-half-baths"
+              formControlName="built_max"
+              id=""
+            />
           </div>
         </div>
       </div>
@@ -165,16 +235,18 @@
 </button>
 <div class="active-filters d-flex flex-wrap gap-2 mb-3">
   <ng-container *ngFor="let key of filterKeys">
-    <ng-container *ngIf="filterForm.get(key)?.value">
-      <span class="badge bg-primary d-flex align-items-center">
-        {{ getLabel(key) }}: {{ getValue(key) }}
-        <button
-          type="button"
-          class="btn-close btn-close-white ms-2"
-          aria-label="Remove"
-          (click)="removeFilter(key)"
-        ></button>
-      </span>
+    <ng-container *ngIf="hasValue(key)">
+      <ng-container *ngIf="filterForm.get(key)?.value">
+        <span class="badge bg-primary d-flex align-items-center">
+          {{ getLabel(key) }}: {{ getValue(key) }}
+          <button
+            type="button"
+            class="btn-close btn-close-white ms-2"
+            aria-label="Remove"
+            (click)="removeFilter(key)"
+          ></button>
+        </span>
+      </ng-container>
     </ng-container>
   </ng-container>
 </div>

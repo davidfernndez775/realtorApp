@@ -120,6 +120,13 @@ export class SearchFormComponent {
     return map[key] || key;
   }
 
+  hasValue(key: string): boolean {
+    const val = this.filterForm.get(key)?.value;
+    return (
+      val !== null && val !== '' && !(typeof val === 'boolean' && val === false)
+    );
+  }
+
   getValue(key: string): any {
     const val = this.filterForm.get(key)?.value;
     if (typeof val === 'boolean') return val ? 'Yes' : '';
