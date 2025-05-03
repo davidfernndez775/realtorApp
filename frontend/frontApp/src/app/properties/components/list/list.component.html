@@ -49,10 +49,14 @@
           <div class="card-body">
             <h5 class="card-title">{{ property.title }}</h5>
             <p class="card-text">
-              {{ property.description }}
+              {{ property.square_ft }} sq_ft
+              <span *ngIf="property.new === true" id="badge-new">New</span>
+              <span *ngIf="property.price_decrease === true" id="badge-price"
+                >Price ↓</span
+              >
             </p>
             <p class="card-text">
-              <span class="text-secondary">{{ property.price }}</span>
+              Price: <span class="text-secondary">${{ property.price }}</span>
             </p>
             <button
               class="btn btn-outline-primary mb-2 me-2"

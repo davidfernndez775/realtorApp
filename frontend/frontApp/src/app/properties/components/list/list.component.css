@@ -69,3 +69,15 @@ ul {
     background-position: -200% 0;
   }
 }
+
+#badge-new {
+  padding: 0.2rem;
+  background-color: rgb(23, 123, 253);
+  color: white;
+}
+
+#badge-price {
+  padding: 0.2rem;
+  background-color: rgb(125, 111, 0);
+  color: white;
+}

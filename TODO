@@ -1,8 +1,11 @@
 BACKEND
 
-
 FRONTEND
-- agregar icono al header del navbar
-- agregar formulario de comentarios
-- agregar defer views y comprobar la carga
-- ver algunas animaciones
+
+- ejecutar los filtros no solo con click, sino tambien con enter
+- ver otras opciones de diseño para el sidebar de filters
+- colocar las propiedades en el mapa
+- modulo de autenticacion
+- modulo de comentarios
+- guards
+- testing
