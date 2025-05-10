@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { RealEstateProperty } from '../../interfaces/realEstateProperty';
 import { CommonModule } from '@angular/common';
+import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-search-form',
@@ -90,6 +91,11 @@ export class SearchFormComponent {
 
   openEnd(content: TemplateRef<any>) {
     this.offcanvasService.open(content, { position: 'end' });
+  }
+
+  onSubmit(offcanvas: NgbActiveOffcanvas): void {
+    this.applyFilters();
+    offcanvas.close('Submit/Enter key');
   }
 
   applyFilters(): void {

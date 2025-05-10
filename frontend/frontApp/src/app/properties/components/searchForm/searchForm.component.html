@@ -12,7 +12,7 @@
   <p>Fill only what you need</p>
 
   <div class="offcanvas-body overflow-auto">
-    <form [formGroup]="filterForm">
+    <form [formGroup]="filterForm" (ngSubmit)="onSubmit(offcanvas)">
       <div ngbDropdown class="d-inline-block me-2">
         <button
           class="btn btn-outline-primary"
@@ -215,13 +215,7 @@
       </div>
 
       <div class="text-end">
-        <button
-          type="button"
-          class="btn btn-outline-secondary"
-          (click)="applyFilters(); offcanvas.close('Close click')"
-        >
-          Apply
-        </button>
+        <button type="submit" class="btn btn-outline-secondary">Apply</button>
       </div>
     </form>
   </div>
