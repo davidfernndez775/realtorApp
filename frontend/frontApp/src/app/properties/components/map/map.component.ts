@@ -9,7 +9,7 @@ import {
   OnDestroy,
   Input,
 } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { Color, Map, Marker } from 'maplibre-gl';
 import { environment } from '../../../../environments/environment';
@@ -31,7 +31,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   public markers: Marker[] = [];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
+    private router: Router
+  ) {}
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -70,21 +73,73 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       color = 'blue';
     }
     // call the marker
-    this.addMarker(property.lon, property.lat, color);
+    this.addMarker(property.lon, property.lat, color, property);
     console.log('createmarker');
   }
 
-  addMarker(lng: number, lat: number, color: string = 'red') {
-    // check if there is a map object
-    if (!this.map || !this.properties) return;
+  addMarker(
+    lng: number,
+    lat: number,
+    color: string = 'red',
+    property?: RealEstateProperty
+  ) {
+    if (!this.map) return;
 
-    const marker = new Marker({
-      color: color,
-    })
+    const el = document.createElement('div');
+    el.className = 'custom-marker';
+    el.style.backgroundColor = color;
+    el.style.width = '24px';
+    el.style.height = '24px';
+    el.style.borderRadius = '50%';
+    el.style.cursor = 'pointer';
+    el.style.border = '2px solid white';
+
+    if (property) {
+      el.title = `${property.title} - $${property.price}`; // fallback tooltip
+    }
+
+    // ➕ Popover manual
+    el.addEventListener('mouseenter', () => {
+      const popover = document.createElement('div');
+      popover.className = 'custom-popover';
+      popover.innerHTML = `
+        <strong>${property?.title}</strong><br>
+        $${property?.price}
+      `;
+      document.body.appendChild(popover);
+
+      const rect = el.getBoundingClientRect();
+      popover.style.left = `${rect.left + rect.width / 2}px`;
+      popover.style.top = `${rect.top - 40}px`;
+      popover.style.position = 'fixed';
+      popover.style.backgroundColor = 'white';
+      popover.style.padding = '6px 10px';
+      popover.style.border = '1px solid #ccc';
+      popover.style.borderRadius = '4px';
+      popover.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+      popover.style.zIndex = '1000';
+
+      el.addEventListener(
+        'mouseleave',
+        () => {
+          popover.remove();
+        },
+        { once: true }
+      );
+    });
+
+    // ➕ Click para navegar
+    el.addEventListener('click', () => {
+      if (property) {
+        this.router.navigate(['/properties', property.id]);
+      }
+    });
+
+    const marker = new Marker({ element: el })
       .setLngLat([lng, lat])
       .addTo(this.map);
 
-    console.log('addmarker');
+    this.markers.push(marker);
   }
 
   ngOnDestroy() {
