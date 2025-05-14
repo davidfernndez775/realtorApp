@@ -1,8 +1,8 @@
 export interface RealEstateProperty {
   id: number;
   title: string;
-  lon: string;
-  lat: string;
+  lon: number;
+  lat: number;
   county: string;
   address: string;
   property_type: string;

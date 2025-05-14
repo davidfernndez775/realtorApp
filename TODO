@@ -2,7 +2,6 @@ BACKEND
 
 FRONTEND
 
-- ejecutar los filtros no solo con click, sino tambien con enter
 - ver otras opciones de diseño para el sidebar de filters
 - colocar las propiedades en el mapa
 - modulo de autenticacion
