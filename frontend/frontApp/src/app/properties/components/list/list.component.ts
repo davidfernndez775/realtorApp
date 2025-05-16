@@ -8,7 +8,6 @@ import {
   inject,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DetailsComponent } from '../details/details.component';
 import { RealEstateProperty } from '../../interfaces/realEstateProperty';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -17,7 +16,7 @@ import { DetailModalComponent } from '../detail-modal/detail-modal.component';
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, DetailsComponent],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
   // encapsulation: ViewEncapsulation.None,
