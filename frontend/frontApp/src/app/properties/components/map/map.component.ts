@@ -8,18 +8,22 @@ import {
   PLATFORM_ID,
   OnDestroy,
   Input,
+  TemplateRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Color, Map, Marker } from 'maplibre-gl';
 import { environment } from '../../../../environments/environment';
 import { RealEstateProperty } from '../../interfaces/realEstateProperty';
 import { map } from 'rxjs';
+import { DetailsComponent } from '../details/details.component';
+import { DetailModalComponent } from '../detail-modal/detail-modal.component';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [],
+  imports: [DetailsComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,12 +32,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   map: Map | undefined;
   @ViewChild('map', { static: false }) mapContainer?: ElementRef<HTMLElement>;
   @Input() properties: RealEstateProperty[] | null = null;
+  selectedProperty: RealEstateProperty | null = null;
 
   public markers: Marker[] = [];
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
-    private router: Router
+    private modalService: NgbModal
   ) {}
 
   ngAfterViewInit(): void {
@@ -131,7 +136,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     // ➕ Click para navegar
     el.addEventListener('click', () => {
       if (property) {
-        this.router.navigate(['/properties', property.id]);
+        const modalRef = this.modalService.open(DetailModalComponent, {
+          size: 'xl',
+        });
+        modalRef.componentInstance.property = property;
       }
     });
 

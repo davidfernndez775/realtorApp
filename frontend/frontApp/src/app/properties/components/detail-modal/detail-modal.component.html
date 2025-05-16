@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ property.title }}</h5>
+  <h5 class="modal-title" id="price">${{ property.price }}</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="modal.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <app-details [property]="property"></app-details>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modal.close()">
+    Close
+  </button>
+</div>
