@@ -17,13 +17,13 @@ import { Color, Map, Marker } from 'maplibre-gl';
 import { environment } from '../../../../environments/environment';
 import { RealEstateProperty } from '../../interfaces/realEstateProperty';
 import { map } from 'rxjs';
-import { DetailsComponent } from '../details/details.component';
+// import { DetailsComponent } from '../details/details.component';
 import { DetailModalComponent } from '../detail-modal/detail-modal.component';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [DetailsComponent],
+  imports: [],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,7 +79,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
     // call the marker
     this.addMarker(property.lon, property.lat, color, property);
-    console.log('createmarker');
+    // console.log('createmarker');
   }
 
   addMarker(

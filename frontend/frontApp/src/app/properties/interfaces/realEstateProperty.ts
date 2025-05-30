@@ -20,3 +20,10 @@ export interface RealEstateProperty {
   water_front: boolean;
   main_image: string;
 }
+
+export interface RealEstatePropertyImages {
+  id: number;
+  property: number;
+  image: string;
+  uploaded_at: Date;
+}
