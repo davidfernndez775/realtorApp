@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { RealEstateProperty } from '../../interfaces/realEstateProperty';
 
 interface Country {
   name: string;
@@ -94,5 +95,6 @@ const COUNTRIES: Country[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableDetailsComponent {
+  @Input() property!: RealEstateProperty;
   countries = COUNTRIES;
 }

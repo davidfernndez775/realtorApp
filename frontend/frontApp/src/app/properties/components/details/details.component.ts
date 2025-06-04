@@ -33,7 +33,7 @@ interface ImageState {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailsComponent implements OnChanges {
-  @Input() property!: RealEstateProperty | null;
+  @Input() property!: RealEstateProperty;
   public state$!: Observable<ImageState>;
   // images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
   public images: string[] = [];

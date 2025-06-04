@@ -2,14 +2,42 @@
   <!-- tabla y contenido aquí -->
   <table class="table table-striped">
     <tbody class="scrollable-tbody">
-      @for (country of countries; track country.name; let i = $index) {
       <tr>
-        <td>
-          {{ country.name }}
-        </td>
-        <td>{{ country.area | number }}</td>
+        <td>Address</td>
+        <td>{{ property.address }}</td>
       </tr>
-      }
+      <tr>
+        <td>County</td>
+        <td>{{ property.county }}</td>
+      </tr>
+      <tr>
+        <td>Zip Code</td>
+        <td>{{ property.zip_code | number }}</td>
+      </tr>
+      <tr>
+        <td>Area</td>
+        <td>{{ property.square_ft | number }}</td>
+      </tr>
+      <tr>
+        <td>Beds</td>
+        <td>{{ property.beds | number }}</td>
+      </tr>
+      <tr>
+        <td>Full Baths</td>
+        <td>{{ property.full_baths | number }}</td>
+      </tr>
+      <tr>
+        <td>Half Baths</td>
+        <td>{{ property.half_baths | number }}</td>
+      </tr>
+      <tr>
+        <td>Built in</td>
+        <td>{{ property.built | number }}</td>
+      </tr>
+      <tr>
+        <td>Description</td>
+        <td>{{ property.description }}</td>
+      </tr>
     </tbody>
   </table>
 </div>

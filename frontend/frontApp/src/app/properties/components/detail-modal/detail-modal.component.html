@@ -1,6 +1,13 @@
 <div class="modal-header">
   <h5 class="modal-title">{{ property.title }}-</h5>
   <h5 class="modal-title" id="price">${{ property.price }}</h5>
+  @if (property.new) {
+  <span>#New</span>
+  } @if (property.price_decrease) {
+  <span>#Price-decrease</span>
+  } @if (property.water_front) {
+  <span>#Waterfront</span>
+  }
   <button
     type="button"
     class="btn-close"
