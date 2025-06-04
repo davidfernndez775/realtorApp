@@ -2,39 +2,11 @@
   display: block;
 }
 
-.table-scroll-container {
-  max-height: 100vh;
-  overflow: hidden; /* evitar scroll en todo el div */
-}
-
-.scrollable-tbody {
-  display: block;
-  max-height: 500px; /* o usa 100% si el padre tiene altura definida */
-  overflow-y: auto;
-}
-
-.scrollable-tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
-
-thead,
-.scrollable-tbody {
-  display: block;
-}
-
-/* Asegura que la tabla se adapte en móviles */
-table {
-  width: 100%;
-  min-width: 400px; /* evita que las celdas se aplasten demasiado */
-  border-collapse: collapse;
-}
-
-/* Asegura que las celdas se ajusten correctamente */
-td,
-th {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+/* *usando CSS Grid */
+.details-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  row-gap: 8px;
+  column-gap: 16px;
+  word-break: break-word;
 }

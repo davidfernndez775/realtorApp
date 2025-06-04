@@ -1,25 +1,27 @@
-<div class="row">
-  <div class="col-md-8">
-    <ng-container *ngIf="state$ | async as state">
-      <ngb-carousel *ngIf="state.images?.length">
-        <ng-template ngbSlide *ngFor="let item of state.images">
-          <div class="picsum-img-wrapper">
-            <img
-              [src]="item.image"
-              alt="Imagen de propiedad"
-              class="d-block w-100"
-            />
-          </div>
-        </ng-template>
-      </ngb-carousel>
-      <p *ngIf="!state.images?.length && !state.loading">
-        No hay imágenes disponibles.
-      </p>
-      <p *ngIf="state.loading">Cargando imágenes...</p>
-      <p *ngIf="state.error" class="text-danger">{{ state.error }}</p>
-    </ng-container>
-  </div>
-  <div class="col-md-4">
-    <app-table-details [property]="property"></app-table-details>
+<div class="property-modal">
+  <div class="property-grid">
+    <div class="property-image">
+      <ng-container *ngIf="state$ | async as state">
+        <ngb-carousel *ngIf="state.images?.length">
+          <ng-template ngbSlide *ngFor="let item of state.images">
+            <div class="picsum-img-wrapper">
+              <img
+                [src]="item.image"
+                alt="Imagen de propiedad"
+                class="d-block w-100"
+              />
+            </div>
+          </ng-template>
+        </ngb-carousel>
+        <p *ngIf="!state.images?.length && !state.loading">
+          No hay imágenes disponibles.
+        </p>
+        <p *ngIf="state.loading">Cargando imágenes...</p>
+        <p *ngIf="state.error" class="text-danger">{{ state.error }}</p>
+      </ng-container>
+    </div>
+    <div class="property-details">
+      <app-table-details [property]="property"></app-table-details>
+    </div>
   </div>
 </div>
