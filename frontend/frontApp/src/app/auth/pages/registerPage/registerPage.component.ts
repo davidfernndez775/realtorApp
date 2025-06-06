@@ -20,9 +20,9 @@ export class RegisterPageComponent {
   constructor(private fb: FormBuilder) {
     this.registerForm = this.fb.group({
       username: [''],
-      email: [''],
-      password: [''],
-      password2: [''],
+      email: ['', Validators.email],
+      password: ['', Validators.minLength(6)],
+      password2: ['', Validators.minLength(6)],
       phone: [''],
     });
   }

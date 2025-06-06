@@ -5,14 +5,15 @@ import {
   RealEstatePropertyImages,
 } from '../interfaces/realEstateProperty';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RealEstatePropertyService {
-  private baseUrl: string = 'http://127.0.0.1:8000/app/real-estate';
-  private listUrl: string = `${this.baseUrl}/list/`;
-  private imageUrl: string = `${this.baseUrl}/property-images`;
+  private readonly baseUrl: string = environment.baseUrl;
+  private listUrl: string = `${this.baseUrl}/real-estate/list/`;
+  private imageUrl: string = `${this.baseUrl}/real-estate/property-images`;
   constructor(private http: HttpClient) {}
 
   getPropertyList(filters?: any): Observable<RealEstateProperty[]> {
