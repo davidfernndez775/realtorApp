@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   RealEstateProperty,
   RealEstatePropertyImages,
-} from '../interfaces/realEstateProperty';
+} from '../interfaces/realEstatePropertyinterface.';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 

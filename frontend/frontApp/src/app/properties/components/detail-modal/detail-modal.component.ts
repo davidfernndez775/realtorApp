@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { RealEstateProperty } from '../../interfaces/realEstateProperty';
+import { RealEstateProperty } from '../../interfaces/realEstatePropertyinterface.';
 import { DetailsComponent } from '../details/details.component';
 import { CommonModule } from '@angular/common';
 

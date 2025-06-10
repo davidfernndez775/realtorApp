@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { RealEstateProperty } from '../../interfaces/realEstateProperty';
+import { RealEstateProperty } from '../../interfaces/realEstatePropertyinterface.';
 
 interface Country {
   name: string;

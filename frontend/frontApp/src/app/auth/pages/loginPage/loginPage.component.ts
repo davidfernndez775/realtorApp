@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -9,4 +11,20 @@ import { RouterModule } from '@angular/router';
   styleUrl: './loginPage.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginPageComponent {}
+export class LoginPageComponent {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+
+  public loginForm: FormGroup = this.fb.group({
+    email: ['', Validators.required, Validators.email],
+    password: ['', Validators.required, Validators.minLength(6)],
+  });
+
+  login() {
+    const { email, password } = this.loginForm.value;
+    this.authService.login(email, password).subscribe((success) => {
+      console.log(success);
+    });
+    // console.log(this.loginForm.value);
+  }
+}

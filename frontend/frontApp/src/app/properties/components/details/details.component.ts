@@ -13,7 +13,7 @@ import { TableDetailsComponent } from '../tableDetails/tableDetails.component';
 import {
   RealEstateProperty,
   RealEstatePropertyImages,
-} from '../../interfaces/realEstateProperty';
+} from '../../interfaces/realEstatePropertyinterface.';
 import { catchError, map, Observable, of, startWith, tap } from 'rxjs';
 import { RealEstatePropertyService } from '../../services/realEstateProperty.service';
 

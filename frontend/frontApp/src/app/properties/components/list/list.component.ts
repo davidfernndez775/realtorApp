@@ -8,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RealEstateProperty } from '../../interfaces/realEstateProperty';
+import { RealEstateProperty } from '../../interfaces/realEstatePropertyinterface.';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { DetailModalComponent } from '../detail-modal/detail-modal.component';

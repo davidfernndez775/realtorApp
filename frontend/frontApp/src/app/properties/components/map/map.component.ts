@@ -15,7 +15,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Color, Map, Marker } from 'maplibre-gl';
 import { environment } from '../../../../environments/environment';
-import { RealEstateProperty } from '../../interfaces/realEstateProperty';
+import { RealEstateProperty } from '../../interfaces/realEstatePropertyinterface.';
 import { map } from 'rxjs';
 // import { DetailsComponent } from '../details/details.component';
 import { DetailModalComponent } from '../detail-modal/detail-modal.component';

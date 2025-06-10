@@ -16,7 +16,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RealEstateProperty } from '../../interfaces/realEstateProperty';
+import { RealEstateProperty } from '../../interfaces/realEstatePropertyinterface.';
 import { CommonModule } from '@angular/common';
 import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
