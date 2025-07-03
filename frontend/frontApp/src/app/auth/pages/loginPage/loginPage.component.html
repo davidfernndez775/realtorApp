@@ -15,13 +15,19 @@
       ></path>
     </svg>
   </div>
-  <form class="text-center" method="post">
+  <form
+    class="text-center"
+    method="post"
+    [formGroup]="loginForm"
+    (ngSubmit)="login()"
+  >
     <div class="mb-3">
       <input
         class="form-control"
         type="email"
         name="email"
         placeholder="Email or username"
+        formControlName="email"
       />
     </div>
     <div class="mb-3">
@@ -30,6 +36,7 @@
         type="password"
         name="password"
         placeholder="Password"
+        formControlName="password"
       />
     </div>
     <div class="mb-3">
