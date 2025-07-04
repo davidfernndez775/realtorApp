@@ -40,7 +40,13 @@
       />
     </div>
     <div class="mb-3">
-      <button class="btn btn-primary d-block w-100" type="submit">Login</button>
+      <button
+        class="btn btn-primary d-block w-100"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
     </div>
     <a class="text-muted" routerLink="/reset-password">Forgot your password?</a>
     <hr />
