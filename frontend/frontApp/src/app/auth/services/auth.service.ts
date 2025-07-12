@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { User } from '../interfaces/user.interface';
 import { AuthStatus } from '../interfaces/authStatus.enum';
-import { map, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { LoginResponse } from '../interfaces/response.interface';
 
 @Injectable({
@@ -31,13 +31,20 @@ export class AuthService {
   login(email: string, password: string): Observable<boolean> {
     const body = { email, password };
     return this.http.post<LoginResponse>(this.loginUrl, body).pipe(
+      // when success
       tap(({ user, token }) => {
         this._currentUser.set(user);
         this._authStatus.set(AuthStatus.authenticated);
         localStorage.setItem('token', token);
         console.log({ user, token });
       }),
-      map(() => true)
+      map(() => true),
+      // when fail
+      catchError((err) => {
+        console.log(err);
+        // depends on backend response
+        return throwError(() => err.error.non_field_errors[0]);
+      })
     );
   }
 }
